@@ -1,0 +1,18 @@
+title: Role
+type: object
+x-tags:
+  - role
+description: ロールを表すモデルです。
+examples:
+  - id: 1
+    permission: 0
+properties:
+  id:
+    type: integer
+    description: 当システム内で一意のロールID
+  permission:
+    type: integer
+    description: ロールタイプを表す
+required:
+  - id
+  - permission

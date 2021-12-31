@@ -1,0 +1,1025 @@
+openapi: 3.1.0
+info:
+  title: Adams Open API
+  version: '1.0'
+  description: |
+    # 共通仕様
+    APIを利用する際の共通仕様は以下のとおりです。
+
+    ## ステータスコード
+    | コード | 説明 |
+    |---|---|
+    | 200 | リクエストが成功 |
+    | 201 | リクエストが成功して、リソースの作成が成功 |
+    | 400 | リクエストに問題発生 |
+    | 401 | 認証エラー |
+    | 403 | アクセス権限がない |
+    | 404 | リソースが存在しない |
+    | 500 | 内部サーバのエラー |
+
+    ※その他エラーコードについては後日定義する
+
+
+    ## エラーレスポンス
+    エラー発生時は、以下のJSONデータを含むレスポンスボディが返却されます。
+
+    | 値 | 説明 |
+    |---|---|
+    | message | エラー情報を含むメッセージ |
+
+    ### エラーメッセージ
+    エラーレスポンスの`message`プロパティに含まれる、主なメッセージは以下のとおりです。
+
+    | メッセージ | 説明 |
+    |---|---|
+    | Not Found | 情報が取得出来ませんでした。 |
+  contact:
+    name: stakizawa
+    email: stakizawa@anvil.ne.jp
+servers:
+  - url: 'http://{host}:{port}/v1'
+    description: devServer
+    variables:
+      host:
+        default: localhost
+      port:
+        default: 8000
+paths:
+  /auth:
+    post:
+      summary: アクセストークンの発行
+      tags:
+        - 認証
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: ランダムな文字列
+                required:
+                  - token
+              examples:
+                example-1:
+                  value:
+                    token: fdajskflsda8989f0dasy8ffd8ayfg78dsyg8g6ya89yfd9as86fas5q435j4hq3l
+        '401':
+          $ref: '#/components/responses/401'
+      operationId: post-auth
+      description: ユーザー情報を元に認証処理をして、成功したらアクセストークンを発行して返却します。
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/User.yaml
+            examples:
+              example-1:
+                $ref: '#/components/examples/user-auth-input'
+        description: ''
+  /users:
+    get:
+      summary: ユーザー一覧を取得
+      tags:
+        - ユーザー
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ../models/User.yaml
+              examples:
+                example-1:
+                  value:
+                    - id: 5423bhjkl54231oiu3415h4j2i6b4j2kl6bj5kl2
+                      email: user@example.com
+                      createdAt: '2021-09-09'
+                      updatedAt: '2021-10-31'
+        '400':
+          $ref: '#/components/responses/400'
+      operationId: get-users
+      description: 当システムを利用している全ユーザーを取得します。
+      parameters: []
+    post:
+      summary: ユーザーの作成
+      tags:
+        - ユーザー
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: ../models/User.yaml
+                  token:
+                    type: string
+                required:
+                  - user
+                  - token
+              examples:
+                example-1:
+                  value:
+                    user:
+                      id: 5423bhjkl54231oiu3415h4j2i6b4j2kl6bj5kl2
+                      email: user@example.com
+                      createdAt: '2021-09-09'
+                      updatedAt: '2021-10-31'
+                    token: fdajskflsda8989f0dasy8ffd8ayfg78dsyg8g6ya89yfd9as86fas5q435j4hq3l
+        '400':
+          $ref: '#/components/responses/400'
+      operationId: post-users
+      description: サインアップ時に呼び出すAPI
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/User.yaml
+            examples:
+              example-1:
+                $ref: '#/components/examples/user-auth-input'
+  '/users/{user_id}':
+    parameters:
+      - $ref: '#/components/parameters/user_id'
+    get:
+      summary: ユーザー情報の取得
+      tags:
+        - ユーザー
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/User.yaml
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-users-user_id
+      description: ユーザーIDに紐づくユーザー情報を取得します。
+    patch:
+      summary: ユーザー情報の更新
+      tags:
+        - ユーザー
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/User.yaml
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+      operationId: patch-users-user_id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+            examples:
+              example-1:
+                $ref: '#/components/examples/user-auth-input'
+      description: ユーザーIDに紐づくユーザー情報を更新します。
+      parameters: []
+      security:
+        - Bearer: []
+    delete:
+      summary: ユーザーの削除
+      tags:
+        - ユーザー
+      responses:
+        '204':
+          description: No Content
+      operationId: delete-users-user_id
+      description: ユーザー退会時に呼び出すAPI
+      security:
+        - Bearer: []
+  /spaces:
+    get:
+      summary: スペース一覧を取得
+      tags:
+        - スペース
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ../models/Space.yaml
+              examples:
+                example-1:
+                  value:
+                    - id: example-space
+                      name: Example Space
+                      description: スペースの説明文を記載
+        '401':
+          $ref: '#/components/responses/401'
+      operationId: get-spaces
+      description: |-
+        ユーザーに紐づくスペースの一覧を取得します。
+
+        ### ユーザーの特定方法について
+        リクエストヘッダーにのっかってきたTokenからユーザーを特定する予定(出来るかは要調査が必要)
+        無理ならクエリパラメータにユーザー情報をのせる
+      security:
+        - Bearer: []
+    parameters: []
+    post:
+      summary: スペースの作成
+      operationId: post-spaces
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Space.yaml
+              examples:
+                example-1:
+                  value:
+                    id: example-space
+                    name: Example Space
+                    description: スペースの説明文を記載
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+      description: スペースを新規作成します。
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/Space.yaml
+            examples:
+              example-1:
+                value:
+                  id: example-space
+                  name: Example Space
+                  description: スペースの説明文を記載
+      tags:
+        - スペース
+  '/spaces/{space_id}':
+    parameters:
+      - $ref: '#/components/parameters/space_id'
+    get:
+      summary: スペース情報を取得
+      tags:
+        - スペース
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Space.yaml
+              examples:
+                example-1:
+                  value:
+                    id: example-space
+                    name: Example Space
+                    description: スペースの説明文を記載
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-spaces-space_id
+      description: スペースIDに紐づくスペース情報を取得します。
+      security:
+        - Bearer: []
+    patch:
+      summary: スペース情報の更新
+      tags:
+        - スペース
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Space.yaml
+              examples:
+                example-1:
+                  value:
+                    id: example-space
+                    name: Example Space
+                    description: スペースの説明文を記載
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: patch-spaces-space_id
+      description: スペースIDに紐づくスペースの情報を更新します。
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  id: example-space
+                  name: Example Space
+                  description: スペースの説明文を記載
+        description: ''
+    delete:
+      summary: スペースの削除
+      tags:
+        - スペース
+      responses:
+        '204':
+          description: No Content
+      operationId: delete-spaces-space_id
+      description: スペースIDに紐づくスペースを削除します。
+      security:
+        - Bearer: []
+  '/spaces/{space_id}/content-models':
+    get:
+      summary: コンテンツモデル一覧を取得
+      tags:
+        - コンテンツモデル
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ../models/Content-Model.yaml
+              examples:
+                example-1:
+                  value:
+                    - id: article
+                      name: 記事
+                      description: string
+        '401':
+          $ref: '#/components/responses/401'
+      operationId: get-content-models
+      description: スペース内のコンテンツモデル一覧を取得します。
+      security:
+        - Bearer: []
+    parameters:
+      - name: space_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: システム内の一意のスペースID
+    post:
+      summary: コンテンツモデルの作成
+      operationId: post-spaces-space_id-content-models
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Content-Model.yaml
+              examples:
+                example-1:
+                  value:
+                    id: article
+                    name: 記事
+                    description: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+      description: スペース内にコンテンツモデルを作成します。
+      tags:
+        - コンテンツモデル
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/Content-Model.yaml
+            examples:
+              example-1:
+                value:
+                  id: article
+                  name: 記事
+                  description: string
+  '/spaces/{space_id}/content_models/{content_model_id}':
+    parameters:
+      - name: space_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: システム内の一意のスペースID
+      - name: content_model_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: スペース内の一意のコンテンツモデルID
+    get:
+      summary: コンテンツモデル情報を取得
+      tags:
+        - コンテンツモデル
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Content-Model.yaml
+              examples:
+                example-1:
+                  value:
+                    id: article
+                    name: 記事
+                    description: string
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-content-models-content_model_id
+      description: スペース内のコンテンツモデルIDに紐づく、コンテンツモデルの情報を取得します。
+      security:
+        - Bearer: []
+    patch:
+      summary: コンテンツモデル情報の更新
+      tags:
+        - コンテンツモデル
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Content-Model.yaml
+              examples:
+                example-1:
+                  value:
+                    id: article
+                    name: 記事
+                    description: string
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: patch-content-models-content_model_id
+      description: スペース内のコンテンツモデルIDい紐づく、コンテンツモデルの情報を更新します。
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  id: article
+                  name: 記事
+                  description: string
+    delete:
+      summary: コンテンツモデルの削除
+      tags:
+        - コンテンツモデル
+      responses:
+        '204':
+          description: No Content
+      operationId: delete-content-models-content_model_id
+      description: スペース内のコンテンツモデルIDに紐づく、コンテンツモデルを削除します。
+      security:
+        - Bearer: []
+  '/spaces/{space_id}/content_models/{content_model_id}/content_fields':
+    parameters:
+      - $ref: '#/components/parameters/space_id'
+      - $ref: '#/components/parameters/content_model_id'
+    get:
+      summary: コンテンツフィールド一覧を取得
+      tags:
+        - コンテンツフィールド
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ../models/Content-Field.yaml
+              examples:
+                example-1:
+                  value:
+                    - id: title
+                      name: タイトル
+                      type: 0
+                      description: string
+        '401':
+          $ref: '#/components/responses/401'
+      operationId: get-spaces-space_id-content_models-content_model_id-content_fields
+      description: コンテンツモデル内のコンテンツフィールド一覧を取得します。
+      security:
+        - Bearer: []
+    post:
+      summary: コンテンツフィールドの作成
+      operationId: post-spaces-space_id-content_models-content_model_id-content_fields
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Content-Field.yaml
+              examples:
+                example-1:
+                  value:
+                    id: title
+                    name: タイトル
+                    type: 0
+                    description: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+      tags:
+        - コンテンツフィールド
+      description: コンテンツモデル内に、コンテンツフィールドを新規作成します。
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/Content-Field.yaml
+            examples:
+              example-1:
+                value:
+                  id: title
+                  name: タイトル
+                  type: 0
+                  description: string
+  '/spaces/{space_id}/content_models/{content_id}/content_fields/{content_field_id}':
+    parameters:
+      - $ref: '#/components/parameters/space_id'
+      - $ref: '#/components/parameters/content_id'
+      - $ref: '#/components/parameters/content_field_id'
+    get:
+      summary: コンテンツフィールド情報を取得
+      tags:
+        - コンテンツフィールド
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Content-Field.yaml
+              examples:
+                example-1:
+                  value:
+                    id: title
+                    name: タイトル
+                    type: 0
+                    description: string
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-spaces-space_id-content_models-content_id-content_fields-content_field_id
+      description: コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドの情報を取得します。
+      security:
+        - Bearer: []
+    patch:
+      summary: コンテンツフィールドの更新
+      operationId: patch-spaces-space_id-content_models-content_id-content_fields-content_field_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Content-Field.yaml
+              examples:
+                example-1:
+                  value:
+                    id: title
+                    name: タイトル
+                    type: 0
+                    description: string
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - コンテンツフィールド
+      description: コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドを更新します。
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                type:
+                  type: integer
+                  enum:
+                    - 0
+                    - 1
+                    - 2
+                description:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  id: title
+                  name: タイトル
+                  type: 0
+                  description: string
+    delete:
+      summary: コンテンツフィールドの削除
+      operationId: delete-spaces-space_id-content_models-content_id-content_fields-content_field_id
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - コンテンツフィールド
+      description: コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドを削除します。
+      security:
+        - Bearer: []
+  '/spaces/{space_id}/content_models/{content_model_id}/contents':
+    parameters:
+      - $ref: '#/components/parameters/space_id'
+      - $ref: '#/components/parameters/content_model_id'
+    get:
+      summary: コンテンツ一覧を取得
+      tags:
+        - コンテンツ
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  limit:
+                    type: integer
+                  skip:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      $ref: ../models/Content-Sample.yaml
+              examples:
+                example-1:
+                  value:
+                    total: 0
+                    limit: 0
+                    skip: 0
+                    items:
+                      - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                        title: string
+                        content: string
+        '400':
+          $ref: '#/components/responses/400'
+      operationId: get-spaces-space_id-content_models-content_model_id-contents
+      description: スペースのコンテンツモデルIDに紐づく、コンテンツ一覧を取得します。
+      security:
+        - Bearer: []
+    post:
+      summary: コンテンツを作成
+      operationId: post-spaces-space_id-content_models-content_model_id-contents
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Content-Sample.yaml
+              examples:
+                example-1:
+                  value:
+                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                    title: string
+                    content: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+      tags:
+        - コンテンツ
+      description: スペース内のコンテンツモデルIDに紐づく、コンテンツモデルにコンテンツを新規作成します。
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/Content-Sample.yaml
+            examples:
+              example-1:
+                value:
+                  title: タイトル
+                  content: 記事の内容
+  '/spaces/{space_id}/content_models/{content_model_id}/contents/{content_id}':
+    parameters:
+      - $ref: '#/components/parameters/space_id'
+      - $ref: '#/components/parameters/content_model_id'
+      - $ref: '#/components/parameters/content_id'
+    get:
+      summary: コンテンツ情報を取得
+      tags:
+        - コンテンツ
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Content-Sample.yaml
+              examples:
+                example-1:
+                  value:
+                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                    title: string
+                    content: string
+      operationId: get-spaces-space_id-content_models-content_model_id-contents-content_id
+      description: コンテンツIDに紐づく、コンテンツの情報を取得します。
+      security:
+        - Bearer: []
+    patch:
+      summary: コンテンツの更新
+      operationId: patch-spaces-space_id-content_models-content_model_id-contents-content_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Content-Sample.yaml
+              examples:
+                example-1:
+                  value:
+                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                    title: string
+                    content: string
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - コンテンツ
+      description: コンテンツIDに紐づく、コンテンツの情報を更新します。
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                content:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  title: string
+                  content: string
+    delete:
+      summary: コンテンツを削除
+      operationId: delete-spaces-space_id-content_models-content_model_id-contents-content_id
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - コンテンツ
+      description: コンテンツIDに紐づく、コンテンツを削除します。
+      security:
+        - Bearer: []
+  '/spaces/{space_id}/api_keys':
+    parameters:
+      - $ref: '#/components/parameters/space_id'
+    get:
+      summary: API Key一覧を取得
+      tags:
+        - API Key
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ../models/API-Key.yaml
+              examples:
+                example-1:
+                  value:
+                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      type:
+                        - 0
+                      key: 543h25ui42307c5n43298c534y285c0nyp43h5982c347nc584250cpn
+        '400':
+          $ref: '#/components/responses/400'
+      operationId: get-spaces-space_id-api_keys
+      description: スペース内のAPI Key一覧を取得します。
+      security:
+        - Bearer: []
+    post:
+      summary: API Keyを発行
+      operationId: post-spaces-space_id-api_keys
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ../models/API-Key.yaml
+              examples:
+                example-1:
+                  value:
+                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                    type:
+                      - 0
+                    key: 543h25ui42307c5n43298c534y285c0nyp43h5982c347nc584250cpn
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+      tags:
+        - API Key
+      description: スペース内に新規でAPI Keyを発行します。
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/API-Key.yaml
+            examples:
+              example-1:
+                value:
+                  type:
+                    - 0
+  '/spaces/{space_id}/api_keys/{api_key_id}':
+    parameters:
+      - $ref: '#/components/parameters/space_id'
+      - $ref: '#/components/parameters/api_key_id'
+    delete:
+      summary: API Keyを削除
+      tags:
+        - API Key
+      responses:
+        '204':
+          description: No Content
+      operationId: delete-spaces-space_id-api_keys-api_key_id
+      description: スペース内で発行したAPI Keyを削除します。
+      security:
+        - Bearer: []
+components:
+  responses:
+    '400':
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: エラーメッセージの内容
+            required:
+              - message
+          examples:
+            example-1:
+              value:
+                message: リクエストに問題が発生しています。
+      headers: {}
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            example-1:
+              value:
+                message: 認証に失敗しました。
+    '404':
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            example-1:
+              value:
+                message: リソースが存在しません。
+  securitySchemes:
+    API Key:
+      name: X-ADAMS-APIKEY
+      type: apiKey
+      in: header
+    Bearer:
+      type: http
+      scheme: bearer
+  parameters:
+    user_id:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: システム内の一意のユーザーID
+    space_id:
+      name: space_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: システム内の一意のスペースID
+    content_model_id:
+      name: content_model_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: スペース内の一意のコンテンツモデルID
+    content_field_id:
+      name: content_field_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: コンテンツモデル内の一意のコンテンツフィールドID
+    content_id:
+      name: content_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: コンテンツモデル内の一意のコンテンツID
+    api_key_id:
+      name: api_key_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: スペース内の一意のAPI Key ID
+  requestBodies: {}
+  examples:
+    user-auth-input:
+      value:
+        email: user@example.com
+        password: password1234

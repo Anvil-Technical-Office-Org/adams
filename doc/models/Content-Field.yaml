@@ -1,0 +1,37 @@
+title: Content Field
+type: object
+description: コンテンツフィールドを表すモデルです。
+examples:
+  - id: title
+    name: タイトル
+    type: 0
+    description: string
+properties:
+  id:
+    type: string
+    description: コンテンツモデル内の一意のコンテンツフィールドID
+  name:
+    type: string
+    description: 管理画面上での表示名
+  type:
+    type: integer
+    description: |-
+      フィールドの入力タイプを表す。
+
+      | 形式 | 対応種別 |
+      | --- | --- |
+      | 文字列 | 0 |
+      | 数値 | 1 |
+      | 画像 | 2 |
+    enum:
+      - 0
+      - 1
+      - 2
+  description:
+    type: string
+required:
+  - id
+  - name
+  - type
+x-tags:
+  - content-field

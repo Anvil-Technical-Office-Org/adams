@@ -1,0 +1,12 @@
+{
+  "name": "doc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "redoc-cli bundle reference/adams-open-api.yaml -o ./dist/index.html"
+  },
+  "devDependencies": {
+    "redoc-cli": "^0.13.2"
+  }
+}

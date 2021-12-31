@@ -1,0 +1,21 @@
+title: Space
+type: object
+x-tags:
+  - space
+description: スペースを表すモデルです。
+examples:
+  - id: example-space
+    name: Example Space
+    description: スペースの説明文を記載
+properties:
+  id:
+    type: string
+    description: システム内で一意のスペースID
+  name:
+    type: string
+    description: 管理画面上での表示名
+  description:
+    type: string
+required:
+  - id
+  - name

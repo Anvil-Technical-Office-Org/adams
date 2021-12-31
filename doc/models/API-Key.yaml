@@ -1,0 +1,42 @@
+title: API Key
+type: object
+x-tags:
+  - api-key
+description: API Keyの情報を表すモデルです。
+examples:
+  - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+    type:
+      - 0
+    key: 543h25ui42307c5n43298c534y285c0nyp43h5982c347nc584250cpn
+properties:
+  id:
+    type: string
+    format: uuid
+    readOnly: true
+  type:
+    type: array
+    uniqueItems: true
+    description: |-
+      API Keyのタイプ
+      一度発行したらタイプの変更不可
+
+      | タイプ | HTTP Method |
+      |---|---|
+      | 0 | GET |
+      | 1 | POST |
+      | 2 | PUT |
+      | 3 | PATCH |
+      | 4 | DELETE |
+    items:
+      type: integer
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+  key:
+    type: string
+    readOnly: true
+required:
+  - id

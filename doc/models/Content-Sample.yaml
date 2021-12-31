@@ -1,0 +1,20 @@
+title: Content Sample
+type: object
+x-tags:
+  - content-sample
+examples:
+  - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+    title: string
+    content: string
+properties:
+  id:
+    type: string
+    format: uuid
+    readOnly: true
+  title:
+    type: string
+  content:
+    type: string
+required:
+  - id
+description: コンテンツのサンプルを表すモデルです。
