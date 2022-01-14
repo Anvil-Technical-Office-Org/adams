@@ -97,10 +97,10 @@ paths:
               examples:
                 example-1:
                   value:
-                    - id: 5423bhjkl54231oiu3415h4j2i6b4j2kl6bj5kl2
+                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
                       email: user@example.com
-                      createdAt: '2021-09-09'
-                      updatedAt: '2021-10-31'
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
       operationId: get-users
@@ -129,10 +129,10 @@ paths:
                 example-1:
                   value:
                     user:
-                      id: 5423bhjkl54231oiu3415h4j2i6b4j2kl6bj5kl2
+                      id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
                       email: user@example.com
-                      createdAt: '2021-09-09'
-                      updatedAt: '2021-10-31'
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
                     token: fdajskflsda8989f0dasy8ffd8ayfg78dsyg8g6ya89yfd9as86fas5q435j4hq3l
         '400':
           $ref: '#/components/responses/400'
@@ -160,6 +160,13 @@ paths:
             application/json:
               schema:
                 $ref: ../models/User.yaml
+              examples:
+                example-1:
+                  value:
+                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                    email: user@example.com
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -177,6 +184,13 @@ paths:
             application/json:
               schema:
                 $ref: ../models/User.yaml
+              examples:
+                example-1:
+                  value:
+                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                    email: user@example.com
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -232,6 +246,8 @@ paths:
                     - id: example-space
                       name: Example Space
                       description: スペースの説明文を記載
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
       operationId: get-spaces
@@ -260,6 +276,8 @@ paths:
                     id: example-space
                     name: Example Space
                     description: スペースの説明文を記載
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -300,6 +318,8 @@ paths:
                     id: example-space
                     name: Example Space
                     description: スペースの説明文を記載
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -325,6 +345,8 @@ paths:
                     id: example-space
                     name: Example Space
                     description: スペースの説明文を記載
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -383,6 +405,8 @@ paths:
                     - id: article
                       name: 記事
                       description: string
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
       operationId: get-content-models
@@ -432,6 +456,8 @@ paths:
                   id: article
                   name: 記事
                   description: string
+                  created_at: '1997-07-16T19:20:30.45+01:00'
+                  updated_at: '1997-07-16T19:20:30.45+01:00'
   '/spaces/{space_id}/content_models/{content_model_id}':
     parameters:
       - name: space_id
@@ -463,6 +489,8 @@ paths:
                     id: article
                     name: 記事
                     description: string
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -488,6 +516,8 @@ paths:
                     id: article
                     name: 記事
                     description: string
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -549,6 +579,8 @@ paths:
                       name: タイトル
                       type: 0
                       description: string
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
       operationId: get-spaces-space_id-content_models-content_model_id-content_fields
@@ -572,6 +604,8 @@ paths:
                     name: タイトル
                     type: 0
                     description: string
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -616,6 +650,8 @@ paths:
                     name: タイトル
                     type: 0
                     description: string
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -641,6 +677,8 @@ paths:
                     name: タイトル
                     type: 0
                     description: string
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -722,6 +760,8 @@ paths:
                       - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
                         title: string
                         content: string
+                        created_at: '1997-07-16T19:20:30.45+01:00'
+                        updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
       operationId: get-spaces-space_id-content_models-content_model_id-contents
@@ -744,6 +784,8 @@ paths:
                     id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
                     title: string
                     content: string
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -785,6 +827,8 @@ paths:
                     id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
                     title: string
                     content: string
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
       operationId: get-spaces-space_id-content_models-content_model_id-contents-content_id
       description: コンテンツIDに紐づく、コンテンツの情報を取得します。
       security:
@@ -805,6 +849,8 @@ paths:
                     id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
                     title: string
                     content: string
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -863,6 +909,8 @@ paths:
                       type:
                         - 0
                       key: 543h25ui42307c5n43298c534y285c0nyp43h5982c347nc584250cpn
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
       operationId: get-spaces-space_id-api_keys
@@ -886,6 +934,8 @@ paths:
                     type:
                       - 0
                     key: 543h25ui42307c5n43298c534y285c0nyp43h5982c347nc584250cpn
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
         '401':
