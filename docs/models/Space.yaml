@@ -1,5 +1,4 @@
 title: Space
-type: object
 x-tags:
   - space
 description: スペースを表すモデルです。
@@ -7,15 +6,20 @@ examples:
   - id: example-space
     name: Example Space
     description: スペースの説明文を記載
-properties:
-  id:
-    type: string
-    description: システム内で一意のスペースID
-  name:
-    type: string
-    description: 管理画面上での表示名
-  description:
-    type: string
-required:
-  - id
-  - name
+    created_at: '1997-07-16T19:20:30.45+01:00'
+    updated_at: '1997-07-16T19:20:30.45+01:00'
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        description: システム内で一意のスペースID
+      name:
+        type: string
+        description: 管理画面上での表示名
+      description:
+        type: string
+    required:
+      - id
+      - name
+  - $ref: ./TimeStamp.yaml

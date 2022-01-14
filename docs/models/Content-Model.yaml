@@ -1,5 +1,4 @@
 title: Content Model
-type: object
 x-tags:
   - content-model
 description: コンテンツモデルを表すモデルです。
@@ -7,15 +6,20 @@ examples:
   - id: article
     name: 記事
     description: string
-properties:
-  id:
-    type: string
-    description: スペース内で一意のコンテンツモデルID
-  name:
-    type: string
-    description: 管理画面上での表示名
-  description:
-    type: string
-required:
-  - id
-  - name
+    created_at: '1997-07-16T19:20:30.45+01:00'
+    updated_at: '1997-07-16T19:20:30.45+01:00'
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        description: スペース内で一意のコンテンツモデルID
+      name:
+        type: string
+        description: 管理画面上での表示名
+      description:
+        type: string
+    required:
+      - id
+      - name
+  - $ref: ./TimeStamp.yaml
