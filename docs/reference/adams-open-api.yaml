@@ -70,7 +70,13 @@ paths:
         '401':
           $ref: '#/components/responses/401'
       operationId: post-auth
-      description: ユーザー情報を元に認証処理をして、成功したらアクセストークンを発行して返却します。
+      description: |-
+        ユーザー情報を元に認証処理をして、成功したらアクセストークンを発行して返却します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | | ● |
       requestBody:
         content:
           application/json:
@@ -104,8 +110,17 @@ paths:
         '400':
           $ref: '#/components/responses/400'
       operationId: get-users
-      description: 当システムを利用している全ユーザーを取得します。
+      description: |-
+        当システムを利用している全ユーザーを取得します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | | |
+
+        > 今のところ使用予定なし
       parameters: []
+      x-internal: false
     post:
       summary: ユーザーの作成
       tags:
@@ -137,7 +152,13 @@ paths:
         '400':
           $ref: '#/components/responses/400'
       operationId: post-users
-      description: サインアップ時に呼び出すAPI
+      description: |-
+        サインアップ時に呼び出すAPI
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | | ● |
       requestBody:
         content:
           application/json:
@@ -172,7 +193,15 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       operationId: get-users-user_id
-      description: ユーザーIDに紐づくユーザー情報を取得します。
+      description: |-
+        ユーザーIDに紐づくユーザー情報を取得します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | | |
+
+        > 今のところ使用予定なし
     patch:
       summary: ユーザー情報の更新
       tags:
@@ -211,7 +240,13 @@ paths:
             examples:
               example-1:
                 $ref: '#/components/examples/user-auth-input'
-      description: ユーザーIDに紐づくユーザー情報を更新します。
+      description: |-
+        ユーザーIDに紐づくユーザー情報を更新します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | | ● |
       parameters: []
       security:
         - Bearer: []
@@ -223,7 +258,13 @@ paths:
         '204':
           description: No Content
       operationId: delete-users-user_id
-      description: ユーザー退会時に呼び出すAPI
+      description: |-
+        ユーザー退会時に呼び出すAPI
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | | ● |
       security:
         - Bearer: []
   /spaces:
@@ -254,6 +295,11 @@ paths:
       description: |-
         ユーザーに紐づくスペースの一覧を取得します。
 
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
+
         ### ユーザーの特定方法について
         リクエストヘッダーにのっかってきたTokenからユーザーを特定する予定(出来るかは要調査が必要)
         無理ならクエリパラメータにユーザー情報をのせる
@@ -282,7 +328,13 @@ paths:
           $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
-      description: スペースを新規作成します。
+      description: |-
+        スペースを新規作成します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
       requestBody:
@@ -325,7 +377,13 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       operationId: get-spaces-space_id
-      description: スペースIDに紐づくスペース情報を取得します。
+      description: |-
+        スペースIDに紐づくスペース情報を取得します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
     patch:
@@ -352,7 +410,13 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       operationId: patch-spaces-space_id
-      description: スペースIDに紐づくスペースの情報を更新します。
+      description: |-
+        スペースIDに紐づくスペースの情報を更新します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
       requestBody:
@@ -382,7 +446,13 @@ paths:
         '204':
           description: No Content
       operationId: delete-spaces-space_id
-      description: スペースIDに紐づくスペースを削除します。
+      description: |-
+        スペースIDに紐づくスペースを削除します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
   '/spaces/{space_id}/content-models':
@@ -410,7 +480,13 @@ paths:
         '401':
           $ref: '#/components/responses/401'
       operationId: get-content-models
-      description: スペース内のコンテンツモデル一覧を取得します。
+      description: |-
+        スペース内のコンテンツモデル一覧を取得します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
     parameters:
@@ -440,7 +516,13 @@ paths:
           $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
-      description: スペース内にコンテンツモデルを作成します。
+      description: |-
+        スペース内にコンテンツモデルを作成します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       tags:
         - コンテンツモデル
       security:
@@ -496,7 +578,13 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       operationId: get-content-models-content_model_id
-      description: スペース内のコンテンツモデルIDに紐づく、コンテンツモデルの情報を取得します。
+      description: |-
+        スペース内のコンテンツモデルIDに紐づく、コンテンツモデルの情報を取得します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
     patch:
@@ -523,7 +611,13 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       operationId: patch-content-models-content_model_id
-      description: スペース内のコンテンツモデルIDい紐づく、コンテンツモデルの情報を更新します。
+      description: |-
+        スペース内のコンテンツモデルIDい紐づく、コンテンツモデルの情報を更新します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
       requestBody:
@@ -552,7 +646,13 @@ paths:
         '204':
           description: No Content
       operationId: delete-content-models-content_model_id
-      description: スペース内のコンテンツモデルIDに紐づく、コンテンツモデルを削除します。
+      description: |-
+        スペース内のコンテンツモデルIDに紐づく、コンテンツモデルを削除します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
   '/spaces/{space_id}/content_models/{content_model_id}/content_fields':
@@ -584,7 +684,13 @@ paths:
         '401':
           $ref: '#/components/responses/401'
       operationId: get-spaces-space_id-content_models-content_model_id-content_fields
-      description: コンテンツモデル内のコンテンツフィールド一覧を取得します。
+      description: |-
+        コンテンツモデル内のコンテンツフィールド一覧を取得します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
     post:
@@ -612,7 +718,13 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - コンテンツフィールド
-      description: コンテンツモデル内に、コンテンツフィールドを新規作成します。
+      description: |-
+        コンテンツモデル内に、コンテンツフィールドを新規作成します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
       requestBody:
@@ -657,7 +769,13 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       operationId: get-spaces-space_id-content_models-content_id-content_fields-content_field_id
-      description: コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドの情報を取得します。
+      description: |-
+        コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドの情報を取得します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
     patch:
@@ -685,7 +803,13 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - コンテンツフィールド
-      description: コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドを更新します。
+      description: |-
+        コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドを更新します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
       requestBody:
@@ -721,7 +845,13 @@ paths:
           description: No Content
       tags:
         - コンテンツフィールド
-      description: コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドを削除します。
+      description: |-
+        コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドを削除します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
   '/spaces/{space_id}/content_models/{content_model_id}/contents':
@@ -765,7 +895,13 @@ paths:
         '400':
           $ref: '#/components/responses/400'
       operationId: get-spaces-space_id-content_models-content_model_id-contents
-      description: スペースのコンテンツモデルIDに紐づく、コンテンツ一覧を取得します。
+      description: |-
+        スペースのコンテンツモデルIDに紐づく、コンテンツ一覧を取得します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
     post:
@@ -792,7 +928,13 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - コンテンツ
-      description: スペース内のコンテンツモデルIDに紐づく、コンテンツモデルにコンテンツを新規作成します。
+      description: |-
+        スペース内のコンテンツモデルIDに紐づく、コンテンツモデルにコンテンツを新規作成します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
       requestBody:
@@ -830,7 +972,13 @@ paths:
                     created_at: '1997-07-16T19:20:30.45+01:00'
                     updated_at: '1997-07-16T19:20:30.45+01:00'
       operationId: get-spaces-space_id-content_models-content_model_id-contents-content_id
-      description: コンテンツIDに紐づく、コンテンツの情報を取得します。
+      description: |-
+        コンテンツIDに紐づく、コンテンツの情報を取得します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
     patch:
@@ -857,7 +1005,13 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - コンテンツ
-      description: コンテンツIDに紐づく、コンテンツの情報を更新します。
+      description: |-
+        コンテンツIDに紐づく、コンテンツの情報を更新します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
       requestBody:
@@ -883,7 +1037,13 @@ paths:
           description: No Content
       tags:
         - コンテンツ
-      description: コンテンツIDに紐づく、コンテンツを削除します。
+      description: |-
+        コンテンツIDに紐づく、コンテンツを削除します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
       security:
         - Bearer: []
   '/spaces/{space_id}/api_keys':
@@ -914,7 +1074,13 @@ paths:
         '400':
           $ref: '#/components/responses/400'
       operationId: get-spaces-space_id-api_keys
-      description: スペース内のAPI Key一覧を取得します。
+      description: |-
+        スペース内のAPI Key一覧を取得します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | | ● |
       security:
         - Bearer: []
     post:
@@ -942,7 +1108,13 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - API Key
-      description: スペース内に新規でAPI Keyを発行します。
+      description: |-
+        スペース内に新規でAPI Keyを発行します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | | ● |
       security:
         - Bearer: []
       requestBody:
@@ -967,7 +1139,13 @@ paths:
         '204':
           description: No Content
       operationId: delete-spaces-space_id-api_keys-api_key_id
-      description: スペース内で発行したAPI Keyを削除します。
+      description: |-
+        スペース内で発行したAPI Keyを削除します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | | ● |
       security:
         - Bearer: []
 components:
