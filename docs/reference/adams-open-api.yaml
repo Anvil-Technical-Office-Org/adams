@@ -455,7 +455,7 @@ paths:
         | ● | ● |
       security:
         - Bearer: []
-  '/spaces/{space_id}/content-models':
+  '/spaces/{space_id}/content_models':
     get:
       summary: コンテンツモデル一覧を取得
       tags:

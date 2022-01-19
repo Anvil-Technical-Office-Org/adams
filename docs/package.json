@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "redoc-cli bundle reference/adams-open-api.yaml -o ./dist/index.html",
-    "type-generate": "npx openapi2aspida"
+    "type-generate": "rm -rf ../frontend/src/generated && npx openapi2aspida"
   },
   "devDependencies": {
     "redoc-cli": "^0.13.2"
