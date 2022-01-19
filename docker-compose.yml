@@ -10,12 +10,24 @@ services:
       - /workspace/node_modules
     networks:
       - front-tier
-      - back-tier
     ports:
       - 3000:3000
     tty: true
     depends_on:
       - db
+
+  mock_server:
+    image: stoplight/prism:4
+    container_name: mock
+    command: mock -h 0.0.0.0 /workspace/reference/adams-open-api.yaml
+    volumes:
+      - ./docs/reference:/workspace/reference
+      - ./docs/models:/workspace/models
+    networks:
+      - front-tier
+    ports:
+      - 3001:4010
+    tty: true
 
   backend:
     build: ./backend

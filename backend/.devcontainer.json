@@ -5,6 +5,7 @@
   ],
   "service": "backend",
   "workspaceFolder": "/workspace",
+  "shutdownAction": "none",
   "settings": {
     "go.useLanguageServer": true,
     "[go]": {
