@@ -81,7 +81,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/User.yaml
+              $ref: '#/components/schemas/User'
             examples:
               example-1:
                 $ref: '#/components/examples/user-auth-input'
@@ -99,7 +99,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ../models/User.yaml
+                  $ref: '#/components/schemas/User'
               examples:
                 example-1:
                   value:
@@ -134,7 +134,7 @@ paths:
                 type: object
                 properties:
                   user:
-                    $ref: ../models/User.yaml
+                    $ref: '#/components/schemas/User'
                   token:
                     type: string
                 required:
@@ -163,7 +163,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/User.yaml
+              $ref: '#/components/schemas/User'
             examples:
               example-1:
                 $ref: '#/components/examples/user-auth-input'
@@ -180,14 +180,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/User.yaml
-              examples:
-                example-1:
-                  value:
-                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                    email: user@example.com
-                    created_at: '1997-07-16T19:20:30.45+01:00'
-                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                $ref: '#/components/schemas/User'
+              examples: {}
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -212,7 +206,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/User.yaml
+                $ref: '#/components/schemas/User'
               examples:
                 example-1:
                   value:
@@ -280,7 +274,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ../models/Space.yaml
+                  $ref: '#/components/schemas/Space'
               examples:
                 example-1:
                   value:
@@ -315,7 +309,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Space.yaml
+                $ref: '#/components/schemas/Space'
               examples:
                 example-1:
                   value:
@@ -341,13 +335,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/Space.yaml
+              $ref: '#/components/schemas/Space'
             examples:
               example-1:
                 value:
-                  id: example-space
-                  name: Example Space
-                  description: スペースの説明文を記載
+                  id: string
+                  name: string
+                  description: string
       tags:
         - スペース
   '/spaces/{space_id}':
@@ -363,7 +357,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Space.yaml
+                $ref: '#/components/schemas/Space'
               examples:
                 example-1:
                   value:
@@ -396,7 +390,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Space.yaml
+                $ref: '#/components/schemas/Space'
               examples:
                 example-1:
                   value:
@@ -468,7 +462,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ../models/Content-Model.yaml
+                  $ref: '#/components/schemas/ContentModel'
               examples:
                 example-1:
                   value:
@@ -505,7 +499,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Content-Model.yaml
+                $ref: '#/components/schemas/ContentModel'
               examples:
                 example-1:
                   value:
@@ -531,7 +525,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/Content-Model.yaml
+              $ref: '#/components/schemas/ContentModel'
             examples:
               example-1:
                 value:
@@ -564,7 +558,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Content-Model.yaml
+                $ref: '#/components/schemas/ContentModel'
               examples:
                 example-1:
                   value:
@@ -597,7 +591,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Content-Model.yaml
+                $ref: '#/components/schemas/ContentModel'
               examples:
                 example-1:
                   value:
@@ -671,7 +665,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ../models/Content-Field.yaml
+                  $ref: '#/components/schemas/ContentField'
               examples:
                 example-1:
                   value:
@@ -702,7 +696,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Content-Field.yaml
+                $ref: '#/components/schemas/ContentField'
               examples:
                 example-1:
                   value:
@@ -731,7 +725,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/Content-Field.yaml
+              $ref: '#/components/schemas/ContentField'
             examples:
               example-1:
                 value:
@@ -754,7 +748,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Content-Field.yaml
+                $ref: '#/components/schemas/ContentField'
               examples:
                 example-1:
                   value:
@@ -787,7 +781,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Content-Field.yaml
+                $ref: '#/components/schemas/ContentField'
               examples:
                 example-1:
                   value:
@@ -872,14 +866,31 @@ paths:
                 properties:
                   total:
                     type: integer
+                    description: コンテンツの総数
                   limit:
                     type: integer
+                    description: 取得件数
+                    default: 10
                   skip:
                     type: integer
+                    description: 何件目から取得されたか
+                    default: 0
                   items:
                     type: array
                     items:
-                      $ref: ../models/Content-Sample.yaml
+                      allOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: string
+                              format: uuid
+                              readOnly: true
+                        - $ref: '#/components/schemas/Timestamp'
+                required:
+                  - total
+                  - limit
+                  - skip
+                  - items
               examples:
                 example-1:
                   value:
@@ -904,6 +915,25 @@ paths:
         | ● | ● |
       security:
         - Bearer: []
+      parameters:
+        - schema:
+            type: integer
+            default: 10
+          in: query
+          name: limit
+          description: 取得件数
+        - schema:
+            type: integer
+            default: '0'
+          in: query
+          name: skip
+          description: 何件目から取得するか
+        - schema:
+            type: string
+            example: '昇順 : created_at 降順 : -created_at'
+          in: query
+          name: orders
+          description: 取得するコンテンツの並び順
     post:
       summary: コンテンツを作成
       operationId: post-spaces-space_id-content_models-content_model_id-contents
@@ -913,13 +943,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Content-Sample.yaml
+                allOf:
+                  - type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                    required:
+                      - id
+                  - $ref: '#/components/schemas/Timestamp'
               examples:
                 example-1:
                   value:
                     id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                    title: string
-                    content: string
                     created_at: '1997-07-16T19:20:30.45+01:00'
                     updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
@@ -941,12 +977,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/Content-Sample.yaml
+              type: object
+              properties: {}
             examples:
               example-1:
                 value:
-                  title: タイトル
-                  content: 記事の内容
+                  title: sample content title
+                  content: sample content message
+        description: リクエストボディは、ユーザーが任意で設定したコンテンツフィールドによるためここでは定義しない
   '/spaces/{space_id}/content_models/{content_model_id}/contents/{content_id}':
     parameters:
       - $ref: '#/components/parameters/space_id'
@@ -962,13 +1000,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Content-Sample.yaml
+                allOf:
+                  - type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                    required:
+                      - id
+                  - $ref: '#/components/schemas/Timestamp'
               examples:
                 example-1:
                   value:
                     id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                    title: string
-                    content: string
                     created_at: '1997-07-16T19:20:30.45+01:00'
                     updated_at: '1997-07-16T19:20:30.45+01:00'
       operationId: get-spaces-space_id-content_models-content_model_id-contents-content_id
@@ -990,7 +1034,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/Content-Sample.yaml
+                allOf:
+                  - type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                    required:
+                      - id
+                  - $ref: '#/components/schemas/Timestamp'
               examples:
                 example-1:
                   value:
@@ -1019,16 +1071,11 @@ paths:
           application/json:
             schema:
               type: object
-              properties:
-                title:
-                  type: string
-                content:
-                  type: string
             examples:
               example-1:
                 value:
-                  title: string
-                  content: string
+                  title: sample content change title
+        description: リクエストボディは、ユーザーが任意で設定したコンテンツフィールドによるためここでは定義しない
     delete:
       summary: コンテンツを削除
       operationId: delete-spaces-space_id-content_models-content_model_id-contents-content_id
@@ -1061,7 +1108,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ../models/API-Key.yaml
+                  $ref: '#/components/schemas/ApiKey'
               examples:
                 example-1:
                   value:
@@ -1092,7 +1139,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/API-Key.yaml
+                $ref: '#/components/schemas/ApiKey'
               examples:
                 example-1:
                   value:
@@ -1121,7 +1168,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/API-Key.yaml
+              $ref: '#/components/schemas/ApiKey'
             examples:
               example-1:
                 value:
@@ -1251,3 +1298,180 @@ components:
       value:
         email: user@example.com
         password: password1234
+  schemas:
+    User:
+      title: User
+      x-tags:
+        - user
+      description: 当システム利用者のユーザーを表すモデルです。
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: システム内の一意のユーザーID
+              readOnly: true
+            email:
+              type: string
+              format: email
+            password:
+              type: string
+              format: password
+              writeOnly: true
+          required:
+            - email
+            - password
+        - $ref: '#/components/schemas/Timestamp'
+      x-examples:
+        example-1:
+          id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          email: user@example.com
+          created_at: '1997-07-16T19:20:30.45+01:00'
+          updated_at: '1997-07-16T19:20:30.45+01:00'
+    Timestamp:
+      title: Timestamp
+      type: object
+      description: 各モデル共通の日付を表すモデルです。
+      properties:
+        created_at:
+          type: string
+          format: date
+          example: '1997-07-16T19:20:30.45+01:00'
+          readOnly: true
+        updated_at:
+          type: string
+          format: date
+          example: '1997-07-16T19:20:30.45+01:00'
+          readOnly: true
+    Space:
+      title: Space
+      description: スペースを表すモデルです。
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: システム内で一意のスペースID
+            name:
+              type: string
+              description: 管理画面上での表示名
+            description:
+              type: string
+          required:
+            - id
+            - name
+        - $ref: '#/components/schemas/Timestamp'
+      x-tags:
+        - space
+    Role:
+      title: Role
+      x-tags:
+        - role
+      description: ロールを表すモデルです。
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: 当システム内で一意のロールID
+            permission:
+              type: integer
+              description: ロールタイプを表す
+          required:
+            - id
+            - permission
+        - $ref: '#/components/schemas/Timestamp'
+    ContentModel:
+      title: Content Model
+      x-tags:
+        - content-model
+      description: コンテンツモデルを表すモデルです。
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: スペース内で一意のコンテンツモデルID
+            name:
+              type: string
+              description: 管理画面上での表示名
+            description:
+              type: string
+          required:
+            - id
+            - name
+        - $ref: '#/components/schemas/Timestamp'
+    ContentField:
+      title: Content Field
+      description: コンテンツフィールドを表すモデルです。
+      x-tags:
+        - content-field
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: コンテンツモデル内の一意のコンテンツフィールドID
+            name:
+              type: string
+              description: 管理画面上での表示名
+            type:
+              type: integer
+              description: |-
+                フィールドの入力タイプを表す。
+
+                | 形式 | 対応種別 |
+                | --- | --- |
+                | 文字列 | 0 |
+                | 数値 | 1 |
+                | 画像 | 2 |
+              enum:
+                - 0
+                - 1
+                - 2
+            description:
+              type: string
+          required:
+            - id
+            - name
+            - type
+        - $ref: '#/components/schemas/Timestamp'
+    ApiKey:
+      title: ApiKey
+      description: API Keyの情報を表すモデルです。
+      x-tags:
+        - api-key
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              readOnly: true
+            type:
+              type: array
+              uniqueItems: true
+              description: |-
+                API Keyのタイプ
+                一度発行したらタイプの変更不可
+
+                | タイプ | HTTP Method |
+                |---|---|
+                | 0 | GET |
+                | 1 | POST |
+                | 2 | PUT |
+                | 3 | PATCH |
+                | 4 | DELETE |
+              items:
+                type: integer
+                enum:
+                  - 0
+                  - 1
+                  - 2
+                  - 3
+                  - 4
+            key:
+              type: string
+              readOnly: true
+        - $ref: '#/components/schemas/Timestamp'
