@@ -1,0 +1,8 @@
+// TODO : 変数宣言を外部に移動
+$header-h: 50px;
+$footer-h: 50px;
+
+.main {
+  position: relative;
+  min-height: calc(100vh - #{($header-h + $footer-h)});
+}

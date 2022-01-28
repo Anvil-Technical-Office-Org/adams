@@ -58,15 +58,23 @@ paths:
               schema:
                 type: object
                 properties:
+                  user:
+                    $ref: '#/components/schemas/User'
                   token:
                     type: string
                     description: ランダムな文字列
                 required:
+                  - user
                   - token
               examples:
                 example-1:
                   value:
-                    token: fdajskflsda8989f0dasy8ffd8ayfg78dsyg8g6ya89yfd9as86fas5q435j4hq3l
+                    user:
+                      id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      email: user@example.com
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
+                    token: string
         '401':
           $ref: '#/components/responses/401'
       operationId: post-auth

@@ -1,0 +1,11 @@
+.root {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  .link {
+    display: block;
+    color: #42A5F5;
+  }
+}

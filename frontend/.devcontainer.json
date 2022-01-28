@@ -5,5 +5,8 @@
   ],
   "service": "frontend",
   "workspaceFolder": "/workspace",
-  "shutdownAction": "none"
+  "shutdownAction": "none",
+  "extensions": [
+    "clinyong.vscode-css-modules"
+  ]
 }

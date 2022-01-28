@@ -14,6 +14,7 @@ func router() (r *gin.Engine) {
 	config.AllowOrigins = []string{
 		"http://localhost:3000",
 	}
+	config.AllowCredentials = true
 	r.Use(cors.New(config))
 
 

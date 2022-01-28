@@ -22,7 +22,6 @@ services:
     command: mock -h 0.0.0.0 /workspace/reference/adams-open-api.yaml
     volumes:
       - ./docs/reference:/workspace/reference
-      - ./docs/models:/workspace/models
     networks:
       - front-tier
     ports:
