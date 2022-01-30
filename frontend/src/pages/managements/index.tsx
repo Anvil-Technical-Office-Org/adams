@@ -12,4 +12,6 @@ const Page: NextPage = () => {
   )
 }
 
+Page.layout = 'management'
+
 export default Page

@@ -1,3 +1,4 @@
+import React from 'react'
 import type { AppProps } from 'next/app'
 // Style読み込み
 import '../styles/styles.scss'
@@ -7,13 +8,18 @@ import Management from '~/components/layouts/management'
 import { RecoilRoot } from 'recoil'
 import CssBaseline from '@mui/material/CssBaseline'
 
-function MyApp({ Component, pageProps }: AppProps) {
+const layouts = {
+  'default': Default,
+  'management': Management,
+}
+const MyApp: React.VFC<AppProps> = ({ Component, pageProps }) => {
+  const Layout = layouts[Component.layout || 'default']
   return (
     <RecoilRoot>
       <CssBaseline />
-      <Default>
+      <Layout>
         <Component {...pageProps} />
-      </Default>
+      </Layout>
     </RecoilRoot>
   )
 }

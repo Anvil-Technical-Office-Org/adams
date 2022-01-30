@@ -3,7 +3,7 @@ import styles from './index.module.scss'
 
 type Props = {}
 
-const Component: React.FC<Props> = ({}) => (
+const Component: React.VFC<Props> = ({}) => (
   <>
     <h1>Welcome Adams!</h1>
   </>

@@ -1,11 +1,11 @@
-import React from "react";
+import React from "react"
 import Link from 'next/link'
 import { Button } from '@mui/material'
 import styles from './header.module.scss'
 
-type Props = {};
+type Props = {}
 
-const header: React.FC<Props> = ({}) => {
+const Component: React.VFC<Props> = ({}) => {
   return (
     <header className={styles.root}>
       <Link href='/'>
@@ -24,4 +24,4 @@ const header: React.FC<Props> = ({}) => {
   )
 }
 
-export default header
+export default Component

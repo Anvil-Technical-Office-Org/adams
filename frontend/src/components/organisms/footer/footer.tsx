@@ -1,8 +1,8 @@
-import React from "react";
+import React from "react"
 import styles from './footer.module.scss'
-type Props = {};
+type Props = {}
 
-const index: React.FC<Props> = ({}) => {
+const Component: React.VFC<Props> = ({}) => {
   return (
     <footer className={styles.root}>
       <p className={styles.logo}>Adams</p>
@@ -10,4 +10,4 @@ const index: React.FC<Props> = ({}) => {
   )
 }
 
-export default index
+export default Component

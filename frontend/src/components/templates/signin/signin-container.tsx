@@ -9,7 +9,7 @@ import { SubmitErrorHandler, SubmitHandler } from 'react-hook-form'
 
 type Props = {}
 
-const Container: React.FC<Props> = ({}) => {
+const Container: React.VFC<Props> = ({}) => {
   const { methods, isSendable, setUser } = useAuth(false)
   const { errors } = methods.formState
   const router = useRouter()

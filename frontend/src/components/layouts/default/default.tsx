@@ -6,7 +6,7 @@ import { Container } from '@mui/material'
 
 type Props = {};
 
-const Default: React.FC<Props> = ({ children }) => {
+const Component: React.FC<Props> = ({ children }) => {
   return (
     <>
       <Header />
@@ -18,4 +18,4 @@ const Default: React.FC<Props> = ({ children }) => {
   )
 }
 
-export default Default
+export default Component

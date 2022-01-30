@@ -14,6 +14,18 @@ const axios = Axios.create({
   withCredentials: true,
 })
 
+/** Responseの共通処理を定義 */
+axios.interceptors.response.use(
+  response => response,
+  error => {
+    console.log('============HTTP Request failure============')
+    if (Axios.isAxiosError(error)) {
+      console.log(error.message)
+      console.log(error.response)
+    }
+    throw error
+  }
+)
 export default axios
 
 /** Aspida Client */

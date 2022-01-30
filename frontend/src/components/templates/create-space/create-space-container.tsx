@@ -3,7 +3,7 @@ import CreateSpacePresentation from './presentations'
 
 type Props = {}
 
-const Container: React.FC<Props> = ({}) => {
+const Container: React.VFC<Props> = ({}) => {
   return (
     <>
       <CreateSpacePresentation />

@@ -1,12 +1,7 @@
 package forms
 
 type SampleForm struct {
-	Name string `json:"name" binding:"required"`
+	Id string `form:"id" json:"sample_id"`
+	Name string `form:"name" json:"name" binding:"required"`
+	Password string `form:"password" json:"password" binding:"required"`
 }
-
-// TODO : モデルの間に挟んでバリデーションとかしたい
-// func (form *SampleForm) Create() (*models.Sample, error) {
-// 	sample := new(models.Sample)
-// 	sample.Name = form.Name
-
-// }

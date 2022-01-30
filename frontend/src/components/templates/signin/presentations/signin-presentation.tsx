@@ -19,7 +19,7 @@ type Props = {
   errors: FieldErrors<AuthFormState>
 }
 
-const Component: React.FC<Props> = ({
+const Component: React.VFC<Props> = ({
   onSubmit,
   onError,
   handleSubmit,
