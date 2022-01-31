@@ -8,4 +8,5 @@ export type AuthResponse = {
 export interface IAuthDriver {
   signup(email: string, password: string): Promise<AuthResponse | null>
   signin(email: string, password: string): Promise<AuthResponse | null>
+  signout(): Promise<void>
 }

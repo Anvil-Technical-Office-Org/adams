@@ -17,4 +17,10 @@ export default class AuthUseCase implements IAuthUseCase {
   async signin (email: string, password: string): Promise<Auth | null> {
     return await this.authRepository.signin(email, password)
   }
+
+  async signout(): Promise<void> {
+      await this.authRepository.signout()
+  }
+
+
 }

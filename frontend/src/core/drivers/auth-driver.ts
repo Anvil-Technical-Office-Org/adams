@@ -7,21 +7,23 @@ import { IAuthDriver, AuthResponse } from '~/core/interfaces/drivers/auth-driver
  */
 export default class AuthDriver implements IAuthDriver {
   async signup(email: string, password: string): Promise<AuthResponse | null> {
-      try {
-        const res = await client.users.$post({ body: {
+    try {
+      const res = await client.auth.signup.$post({
+        body: {
           email,
-          password,
-        }})
-        return res
-      } catch (e) {
-        console.log('signup Error:', e)
-        return null
-      }
+          password
+        }
+      })
+      return res
+    } catch (e) {
+      console.log('signup Error:', e)
+      return null
+    }
   }
 
   async signin (email: string, password: string): Promise<AuthResponse | null> {
     try {
-      const res = await client.auth.$post({
+      const res = await client.auth.signin.$post({
         body: {
           email,
           password,
@@ -31,6 +33,14 @@ export default class AuthDriver implements IAuthDriver {
     } catch (e) {
       console.log('signin Error:', e)
       return null
+    }
+  }
+
+  async signout (): Promise<void> {
+    try {
+      const res = await client.auth.signout.$delete()
+    } catch (e) {
+      console.log('signout Error:', e)
     }
   }
 }

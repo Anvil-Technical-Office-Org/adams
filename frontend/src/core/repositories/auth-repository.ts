@@ -30,6 +30,12 @@ export default class AuthRepository implements IAuthRepository {
       const user = new User(res.user.id, res.user.email, convertSystem(res.user))
       return new Auth(user, res.token)
   }
+
+  async signout(): Promise<void> {
+    await this.authDriver.signout()
+  }
+
+
 }
 
 const convertSystem = (user: UserModel): System => {
