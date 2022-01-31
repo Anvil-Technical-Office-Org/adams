@@ -18,6 +18,8 @@ export type Methods = {
       skip: number
       /** 取得するコンテンツの並び順 */
       orders: string
+      /** 下書きを含めるか */
+      includesDraft: boolean
     }
 
     status: 200

@@ -11,7 +11,6 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const prefix = (baseURL === undefined ? 'http://localhost:8080/v1' : baseURL).replace(/\/$/, '')
   const PATH0 = '/users'
   const GET = 'GET'
-  const POST = 'POST'
   const DELETE = 'DELETE'
   const PATCH = 'PATCH'
 
@@ -69,7 +68,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
         $patch: (option: { body: Methods1['patch']['reqBody'], config?: T }) =>
           fetch<Methods1['patch']['resBody'], BasicHeaders, Methods1['patch']['status']>(prefix, prefix0, PATCH, option).json().then(r => r.body),
         /**
-         * ユーザー退会時に呼び出すAPI
+         * ユーザー退会時に呼び出すAPI。成功時は、Cookieの情報も一緒に削除する。
          *
          * ### 公開範囲
          * | ユーザー公開 | 管理画面 |
@@ -79,7 +78,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
         delete: (option?: { config?: T }) =>
           fetch<void, BasicHeaders, Methods1['delete']['status']>(prefix, prefix0, DELETE, option).send(),
         /**
-         * ユーザー退会時に呼び出すAPI
+         * ユーザー退会時に呼び出すAPI。成功時は、Cookieの情報も一緒に削除する。
          *
          * ### 公開範囲
          * | ユーザー公開 | 管理画面 |
@@ -117,28 +116,6 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
      */
     $get: (option?: { config?: T }) =>
       fetch<Methods0['get']['resBody'], BasicHeaders, Methods0['get']['status']>(prefix, PATH0, GET, option).json().then(r => r.body),
-    /**
-     * サインアップ時に呼び出すAPI
-     *
-     * ### 公開範囲
-     * | ユーザー公開 | 管理画面 |
-     * |:---:|:---:|
-     * | | ● |
-     * @returns Created
-     */
-    post: (option: { body: Methods0['post']['reqBody'], config?: T }) =>
-      fetch<Methods0['post']['resBody'], BasicHeaders, Methods0['post']['status']>(prefix, PATH0, POST, option).json(),
-    /**
-     * サインアップ時に呼び出すAPI
-     *
-     * ### 公開範囲
-     * | ユーザー公開 | 管理画面 |
-     * |:---:|:---:|
-     * | | ● |
-     * @returns Created
-     */
-    $post: (option: { body: Methods0['post']['reqBody'], config?: T }) =>
-      fetch<Methods0['post']['resBody'], BasicHeaders, Methods0['post']['status']>(prefix, PATH0, POST, option).json().then(r => r.body),
     $path: () => `${prefix}${PATH0}`
   }
 }

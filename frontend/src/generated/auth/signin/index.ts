@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type * as Types from '../@types'
+import type * as Types from '../../@types'
 
 export type Methods = {
   /**
@@ -13,11 +13,18 @@ export type Methods = {
   post: {
     status: 200
 
-    /** OK */
+    /** 認証成功時のレスポンス */
     resBody: {
       user: Types.User
-      /** ランダムな文字列 */
+      /** JWT */
       token: string
+    }
+
+    resHeaders: {
+      /** JWT */
+      'Set-Cookie: access_token': string
+      /** 認証フラグ */
+      'Set-Cookie: isAuthenticated': string
     }
 
     reqBody: Types.User

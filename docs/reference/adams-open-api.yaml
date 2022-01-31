@@ -6,33 +6,56 @@ info:
     # 共通仕様
     APIを利用する際の共通仕様は以下のとおりです。
 
+    ## リクエストヘッダ
+    APIをリクエストする場合に、必要な共通リクエストヘッダはありません。
+
+    ただし、認証が必要なAPIに関しては後述する[Authentication](#section/Authentication)のリクエストヘッダが必要です。
+
+    ## レスポンスヘッダ
+    サーバから共通して返却されるレスポンスヘッダは存在しません。
+
     ## ステータスコード
     | コード | 説明 |
-    |---|---|
-    | 200 | リクエストが成功 |
-    | 201 | リクエストが成功して、リソースの作成が成功 |
-    | 400 | リクエストに問題発生 |
-    | 401 | 認証エラー |
-    | 403 | アクセス権限がない |
-    | 404 | リソースが存在しない |
+    |:---:|---|
+    | 200 | リクエストが成功しました。 |
+    | 201 | リクエストが成功し、新たなリソースが作成されました。|
+    | 204 | リクエストが成功しました。<br>レスポンスとして返却するコンテンツは存在しません。 |
+    | 400 | リクエストの内容に問題があります。 以下のような理由が該当します。<br>- リクエストパラメータが不足している<br>- バリデーションエラーもここに該当？ |
+    | 401 | 認証エラーが発生しました。 |
+    | 403 | アクセス権限がありません。以下のような理由が該当します。<br>- 管理者のみがアクセス可能なリソースに一般ユーザーがアクセス<br>- GET権限のみが付与されたAPI KEYでのPOSTリクエスト |
+    | 404 | リソースが存在しませんでした。以下のような理由が該当します。<br>- 対象のユーザーIDが存在していない。 |
+    | 415 | サポートされていないメディア形式です。 |
     | 500 | 内部サーバのエラー |
-
-    ※その他エラーコードについては後日定義する
-
 
     ## エラーレスポンス
     エラー発生時は、以下のJSONデータを含むレスポンスボディが返却されます。
 
     | 値 | 説明 |
     |---|---|
-    | message | エラー情報を含むメッセージ |
+    | message | エラー情報を含むメッセージ。エラーメッセージの詳細は[エラーメッセージ](#section/共通仕様/エラーメッセージ) を参照してください。|
+    | details[].code | エラーコード。特定の状況では返却されません。 |
+    | details[].message | エラーの詳細。特定の状況では返却されません。 詳しくは、[エラーの詳細](#section/共通仕様/エラーの詳細)を参照してください。|
 
-    ### エラーメッセージ
+    ## エラーメッセージ
     エラーレスポンスの`message`プロパティに含まれる、主なメッセージは以下のとおりです。
 
-    | メッセージ | 説明 |
-    |---|---|
-    | Not Found | 情報が取得出来ませんでした。 |
+    | ステータスコード | メッセージ | 説明 |
+    |:---:|---|---|
+    | 400 | Required parameter does not exist in the request body: XXX | リクエストボディに必須パラメータが存在しません。XXXの部分には不足しているパラメータが表示されます。 |
+    || Invalid property is specified in the request body: XXX | リクエストボディに無効なプロパティが指定されていました。XXXの部分には、無効なプロパティ名が表示されます。 |
+    | 401 | The API failed to authenticate on request | APIがリクエスト時に認証に失敗しました。 |
+    | 403 | Called an API to which you do not have access rights | アクセス権限がないAPIを呼び出しました。 |
+    | 404 | Not Found | リソースが取得出来ませんでした。 |
+    | 415 | Content type that is not supported by the API is specified: XXX | APIでサポートされていないコンテンツタイプが指定されました。XXXの部分には指定されたコンテンツタイプが表示されます。 |
+
+    ## エラーの詳細
+    エラーレスポンスとして`details[]`プロパティに含まれる、より詳細なエラーの内容を定義します。
+
+    ※HTTPステータスコード「500」が発生した際のエラーコード等がある場合もここに定義する。今は内部エラーの内容が思い浮かばないので、今後随時記述していく。
+
+    | ステータスコー ド| コード | メッセージ | 説明 |
+    |:---:|:---:|---|---|
+    ||||
   contact:
     name: stakizawa
     email: stakizawa@anvil.ne.jp
@@ -45,39 +68,53 @@ servers:
       port:
         default: 8000
 paths:
-  /auth:
+  /auth/signup:
     post:
-      summary: アクセストークンの発行
+      summary: サインアップ
       tags:
         - 認証
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  user:
-                    $ref: '#/components/schemas/User'
-                  token:
-                    type: string
-                    description: ランダムな文字列
-                required:
-                  - user
-                  - token
-              examples:
-                example-1:
-                  value:
-                    user:
-                      id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                      email: user@example.com
-                      created_at: '1997-07-16T19:20:30.45+01:00'
-                      updated_at: '1997-07-16T19:20:30.45+01:00'
-                    token: string
+          $ref: '#/components/responses/200_auth_success'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+      operationId: post-auth-signup
+      description: |-
+        ユーザーによって入力された内容を元に、データベースにユーザーを作成し、アクセストークンを発行して返却します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | | ● |
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            examples:
+              example-1:
+                value:
+                  id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                  email: user@example.com
+                  created_at: '1997-07-16T19:20:30.45+01:00'
+                  updated_at: '1997-07-16T19:20:30.45+01:00'
+  /auth/signin:
+    post:
+      summary: サインイン
+      tags:
+        - 認証
+      responses:
+        '200':
+          $ref: '#/components/responses/200_auth_success'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
-      operationId: post-auth
+        '500':
+          $ref: '#/components/responses/500'
+      operationId: post-auth-signin
       description: |-
         ユーザー情報を元に認証処理をして、成功したらアクセストークンを発行して返却します。
 
@@ -94,6 +131,33 @@ paths:
               example-1:
                 $ref: '#/components/examples/user-auth-input'
         description: ''
+      parameters: []
+    parameters: []
+  /auth/signout:
+    delete:
+      summary: サインアウト
+      tags:
+        - 認証
+      responses:
+        '200':
+          description: OK
+          headers:
+            'Set-Cookie: access_token':
+              schema:
+                type: string
+                example: access_token=""; Path=/; Domain=localhost; Max-Age=0; HttpOnly;SameSite=Strict;
+              description: JWTの削除
+            'Set-Cookie: isAuthenticated':
+              schema:
+                type: string
+                example: isAuthenticated=""; Path=/; Domain=localhost; Max-Age=0; SameSite=Strict;
+              description: 認証フラグの削除
+        '500':
+          $ref: '#/components/responses/500'
+      operationId: delete-auth-signout
+      description: サインアウトをした際に、Cookieから認証情報を削除します。
+      security:
+        - JWT: []
   /users:
     get:
       summary: ユーザー一覧を取得
@@ -115,8 +179,10 @@ paths:
                       email: user@example.com
                       created_at: '1997-07-16T19:20:30.45+01:00'
                       updated_at: '1997-07-16T19:20:30.45+01:00'
-        '400':
-          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: get-users
       description: |-
         当システムを利用している全ユーザーを取得します。
@@ -129,52 +195,8 @@ paths:
         > 今のところ使用予定なし
       parameters: []
       x-internal: false
-    post:
-      summary: ユーザーの作成
-      tags:
-        - ユーザー
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  user:
-                    $ref: '#/components/schemas/User'
-                  token:
-                    type: string
-                required:
-                  - user
-                  - token
-              examples:
-                example-1:
-                  value:
-                    user:
-                      id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                      email: user@example.com
-                      created_at: '1997-07-16T19:20:30.45+01:00'
-                      updated_at: '1997-07-16T19:20:30.45+01:00'
-                    token: fdajskflsda8989f0dasy8ffd8ayfg78dsyg8g6ya89yfd9as86fas5q435j4hq3l
-        '400':
-          $ref: '#/components/responses/400'
-      operationId: post-users
-      description: |-
-        サインアップ時に呼び出すAPI
-
-        ### 公開範囲
-        | ユーザー公開 | 管理画面 |
-        |:---:|:---:|
-        | | ● |
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-            examples:
-              example-1:
-                $ref: '#/components/examples/user-auth-input'
+      security:
+        - JWT: []
   '/users/{user_id}':
     parameters:
       - $ref: '#/components/parameters/user_id'
@@ -194,6 +216,8 @@ paths:
           $ref: '#/components/responses/401'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: get-users-user_id
       description: |-
         ユーザーIDに紐づくユーザー情報を取得します。
@@ -204,6 +228,8 @@ paths:
         | | |
 
         > 今のところ使用予定なし
+      security:
+        - JWT: []
     patch:
       summary: ユーザー情報の更新
       tags:
@@ -226,6 +252,10 @@ paths:
           $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: patch-users-user_id
       requestBody:
         content:
@@ -251,7 +281,7 @@ paths:
         | | ● |
       parameters: []
       security:
-        - Bearer: []
+        - JWT: []
     delete:
       summary: ユーザーの削除
       tags:
@@ -259,16 +289,22 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: delete-users-user_id
       description: |-
-        ユーザー退会時に呼び出すAPI
+        ユーザー退会時に呼び出すAPI。成功時は、Cookieの情報も一緒に削除する。
 
         ### 公開範囲
         | ユーザー公開 | 管理画面 |
         |:---:|:---:|
         | | ● |
       security:
-        - Bearer: []
+        - JWT: []
   /spaces:
     get:
       summary: スペース一覧を取得
@@ -293,6 +329,8 @@ paths:
                       updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: get-spaces
       description: |-
         ユーザーに紐づくスペースの一覧を取得します。
@@ -306,7 +344,8 @@ paths:
         リクエストヘッダーにのっかってきたTokenからユーザーを特定する予定(出来るかは要調査が必要)
         無理ならクエリパラメータにユーザー情報をのせる
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
     parameters: []
     post:
       summary: スペースの作成
@@ -330,6 +369,10 @@ paths:
           $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
       description: |-
         スペースを新規作成します。
 
@@ -338,7 +381,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
       requestBody:
         content:
           application/json:
@@ -378,6 +422,8 @@ paths:
           $ref: '#/components/responses/401'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: get-spaces-space_id
       description: |-
         スペースIDに紐づくスペース情報を取得します。
@@ -387,7 +433,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
     patch:
       summary: スペース情報の更新
       tags:
@@ -409,8 +456,12 @@ paths:
                     updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: patch-spaces-space_id
       description: |-
         スペースIDに紐づくスペースの情報を更新します。
@@ -420,7 +471,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
       requestBody:
         content:
           application/json:
@@ -447,6 +499,14 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: delete-spaces-space_id
       description: |-
         スペースIDに紐づくスペースを削除します。
@@ -456,7 +516,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
   '/spaces/{space_id}/content_models':
     get:
       summary: コンテンツモデル一覧を取得
@@ -481,6 +542,10 @@ paths:
                       updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: get-content-models
       description: |-
         スペース内のコンテンツモデル一覧を取得します。
@@ -490,7 +555,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
     parameters:
       - name: space_id
         in: path
@@ -518,6 +584,12 @@ paths:
           $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       description: |-
         スペース内にコンテンツモデルを作成します。
 
@@ -528,7 +600,8 @@ paths:
       tags:
         - コンテンツモデル
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
       requestBody:
         content:
           application/json:
@@ -579,6 +652,8 @@ paths:
           $ref: '#/components/responses/401'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: get-content-models-content_model_id
       description: |-
         スペース内のコンテンツモデルIDに紐づく、コンテンツモデルの情報を取得します。
@@ -588,7 +663,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
     patch:
       summary: コンテンツモデル情報の更新
       tags:
@@ -610,8 +686,12 @@ paths:
                     updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: patch-content-models-content_model_id
       description: |-
         スペース内のコンテンツモデルIDい紐づく、コンテンツモデルの情報を更新します。
@@ -621,7 +701,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
       requestBody:
         content:
           application/json:
@@ -647,6 +728,14 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: delete-content-models-content_model_id
       description: |-
         スペース内のコンテンツモデルIDに紐づく、コンテンツモデルを削除します。
@@ -656,7 +745,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
   '/spaces/{space_id}/content_models/{content_model_id}/content_fields':
     parameters:
       - $ref: '#/components/parameters/space_id'
@@ -685,6 +775,10 @@ paths:
                       updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: get-spaces-space_id-content_models-content_model_id-content_fields
       description: |-
         コンテンツモデル内のコンテンツフィールド一覧を取得します。
@@ -694,7 +788,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
     post:
       summary: コンテンツフィールドの作成
       operationId: post-spaces-space_id-content_models-content_model_id-content_fields
@@ -718,6 +813,12 @@ paths:
           $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - コンテンツフィールド
       description: |-
@@ -728,7 +829,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
       requestBody:
         content:
           application/json:
@@ -770,6 +872,8 @@ paths:
           $ref: '#/components/responses/401'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: get-spaces-space_id-content_models-content_id-content_fields-content_field_id
       description: |-
         コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドの情報を取得します。
@@ -779,7 +883,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
     patch:
       summary: コンテンツフィールドの更新
       operationId: patch-spaces-space_id-content_models-content_id-content_fields-content_field_id
@@ -801,8 +906,12 @@ paths:
                     updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - コンテンツフィールド
       description: |-
@@ -813,7 +922,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
       requestBody:
         content:
           application/json:
@@ -845,6 +955,14 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - コンテンツフィールド
       description: |-
@@ -855,7 +973,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
   '/spaces/{space_id}/content_models/{content_model_id}/contents':
     parameters:
       - $ref: '#/components/parameters/space_id'
@@ -913,6 +1032,14 @@ paths:
                         updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: get-spaces-space_id-content_models-content_model_id-contents
       description: |-
         スペースのコンテンツモデルIDに紐づく、コンテンツ一覧を取得します。
@@ -922,7 +1049,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
       parameters:
         - schema:
             type: integer
@@ -942,6 +1070,12 @@ paths:
           in: query
           name: orders
           description: 取得するコンテンツの並び順
+        - schema:
+            type: boolean
+            default: 'false'
+          in: query
+          name: includesDraft
+          description: 下書きを含めるか
     post:
       summary: コンテンツを作成
       operationId: post-spaces-space_id-content_models-content_model_id-contents
@@ -970,6 +1104,12 @@ paths:
           $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - コンテンツ
       description: |-
@@ -980,7 +1120,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
       requestBody:
         content:
           application/json:
@@ -1023,6 +1164,14 @@ paths:
                     id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
                     created_at: '1997-07-16T19:20:30.45+01:00'
                     updated_at: '1997-07-16T19:20:30.45+01:00'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: get-spaces-space_id-content_models-content_model_id-contents-content_id
       description: |-
         コンテンツIDに紐づく、コンテンツの情報を取得します。
@@ -1032,7 +1181,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
     patch:
       summary: コンテンツの更新
       operationId: patch-spaces-space_id-content_models-content_model_id-contents-content_id
@@ -1059,10 +1209,16 @@ paths:
                     content: string
                     created_at: '1997-07-16T19:20:30.45+01:00'
                     updated_at: '1997-07-16T19:20:30.45+01:00'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - コンテンツ
       description: |-
@@ -1073,7 +1229,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
       requestBody:
         content:
           application/json:
@@ -1090,6 +1247,14 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - コンテンツ
       description: |-
@@ -1100,7 +1265,8 @@ paths:
         |:---:|:---:|
         | ● | ● |
       security:
-        - Bearer: []
+        - API Key: []
+        - JWT: []
   '/spaces/{space_id}/api_keys':
     parameters:
       - $ref: '#/components/parameters/space_id'
@@ -1126,8 +1292,14 @@ paths:
                       key: 543h25ui42307c5n43298c534y285c0nyp43h5982c347nc584250cpn
                       created_at: '1997-07-16T19:20:30.45+01:00'
                       updated_at: '1997-07-16T19:20:30.45+01:00'
-        '400':
-          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          description: Internal Server Error
       operationId: get-spaces-space_id-api_keys
       description: |-
         スペース内のAPI Key一覧を取得します。
@@ -1137,7 +1309,7 @@ paths:
         |:---:|:---:|
         | | ● |
       security:
-        - Bearer: []
+        - JWT: []
     post:
       summary: API Keyを発行
       operationId: post-spaces-space_id-api_keys
@@ -1161,6 +1333,12 @@ paths:
           $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - API Key
       description: |-
@@ -1171,7 +1349,7 @@ paths:
         |:---:|:---:|
         | | ● |
       security:
-        - Bearer: []
+        - JWT: []
       requestBody:
         content:
           application/json:
@@ -1193,6 +1371,14 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       operationId: delete-spaces-space_id-api_keys-api_key_id
       description: |-
         スペース内で発行したAPI Keyを削除します。
@@ -1202,11 +1388,11 @@ paths:
         |:---:|:---:|
         | | ● |
       security:
-        - Bearer: []
+        - JWT: []
 components:
   responses:
     '400':
-      description: Bad Request
+      description: 'リクエストに問題がある場合のレスポンス。`message`プロパティはエラーの内容によって変更される。詳細なエラーメッセージの内容は、[エラーメッセージ](#section/共通仕様/エラーメッセージ)を参照。'
       content:
         application/json:
           schema:
@@ -1215,15 +1401,21 @@ components:
               message:
                 type: string
                 description: エラーメッセージの内容
+                example: 'Required parameter does not exist in the request body: XXX'
             required:
               - message
           examples:
             example-1:
               value:
-                message: リクエストに問題が発生しています。
+                message: 'Required parameter does not exist in the request body: XXX'
       headers: {}
     '401':
-      description: Unauthorized
+      description: |-
+        API呼び出し時に認証に失敗しました。失敗の理由は以下の可能性が考えれれます。
+
+        - サインイン時のメールアドレス・パスワードの不一致による認証失敗
+        - 管理画面でのJWT認証失敗
+        - API KEYによる認証失敗
       content:
         application/json:
           schema:
@@ -1231,12 +1423,16 @@ components:
             properties:
               message:
                 type: string
+                example: The API failed to authenticate on request
+                description: エラーメッセージ
+            required:
+              - message
           examples:
             example-1:
               value:
-                message: 認証に失敗しました。
-    '404':
-      description: Not Found
+                message: The API failed to authenticate on request
+    '403':
+      description: アクセス権限がないAPIの呼び出し。
       content:
         application/json:
           schema:
@@ -1244,15 +1440,96 @@ components:
             properties:
               message:
                 type: string
+                example: "Called an API to which you do not have access rights\t"
+                description: エラーメッセージ
+            required:
+              - message
+    '404':
+      description: リソースが存在しない。
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Not Found
+                description: エラーメッセージ
+            required:
+              - message
           examples:
             example-1:
               value:
                 message: リソースが存在しません。
+    '500':
+      description: 内部サーバエラー。具体的なエラーの詳細は随時追加予定。
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: エラーメッセージ
+              details:
+                type: array
+                description: 詳細なエラーが存在する場合は返却する
+                items:
+                  type: object
+                  description: 詳細なエラーの内容
+                  properties:
+                    code:
+                      type: string
+                      description: システム内で独自定義したエラーコード
+                    message:
+                      type: string
+                      description: 詳細なエラーメッセージ
+            required:
+              - message
+    200_auth_success:
+      description: 認証成功時のレスポンス
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user:
+                $ref: '#/components/schemas/User'
+              token:
+                type: string
+                description: JWT
+            required:
+              - user
+              - token
+          examples:
+            example-1:
+              value:
+                user:
+                  id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                  email: user@example.com
+                  created_at: '1997-07-16T19:20:30.45+01:00'
+                  updated_at: '1997-07-16T19:20:30.45+01:00'
+                token: string
+      headers:
+        'Set-Cookie: access_token':
+          schema:
+            type: string
+            example: access_token=JWT; Path=/; Domain=localhost; Max-Age=3600; HttpOnly;SameSite=Strict;
+          description: JWT
+        'Set-Cookie: isAuthenticated':
+          schema:
+            type: string
+            example: isAuthenticated=ture; Path=/; Domain=localhost; Max-Age=3600; SameSite=Strict;
+          description: 認証フラグ
   securitySchemes:
     API Key:
       name: X-ADAMS-APIKEY
       type: apiKey
       in: header
+    JWT:
+      name: access_token
+      type: apiKey
+      in: cookie
     Bearer:
       type: http
       scheme: bearer
