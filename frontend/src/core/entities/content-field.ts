@@ -1,4 +1,4 @@
-import { System } from "./system"
+import { System } from './system'
 
 export class ContentField {
   readonly id: string
@@ -14,7 +14,7 @@ export class ContentField {
   readonly unit_name: string
   readonly sys: System
 
-  constructor (
+  constructor(
     id: string,
     name: string,
     type: number,

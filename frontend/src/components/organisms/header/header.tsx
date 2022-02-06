@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 import Link from 'next/link'
 import { Button } from '@mui/material'
 import styles from './header.module.scss'
@@ -12,13 +12,12 @@ const Component: React.VFC<Props> = ({}) => {
         <a className={styles.logo}>Adams</a>
       </Link>
       <div>
-        <Link href='/signup'>
-          <Button>Signup</Button>
-        </Link>
         <Link href='/signin'>
-          <Button>Signin</Button>
+          <Button>ログイン</Button>
         </Link>
-
+        <Link href='/signup'>
+          <Button>新規登録</Button>
+        </Link>
       </div>
     </header>
   )

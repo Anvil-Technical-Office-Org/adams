@@ -9,8 +9,8 @@ import { RecoilRoot } from 'recoil'
 import CssBaseline from '@mui/material/CssBaseline'
 
 const layouts = {
-  'default': Default,
-  'management': Management,
+  default: Default,
+  management: Management,
 }
 const MyApp: React.VFC<AppProps> = ({ Component, pageProps }) => {
   const Layout = layouts[Component.layout || 'default']

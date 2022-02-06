@@ -1,13 +1,13 @@
 import React from 'react'
 import styles from './signin.module.scss'
+import { Grid, TextField, Button, Container } from '@mui/material'
+import Link from 'next/link'
 import {
-  Grid,
-  TextField,
-  Button,
-  Container,
-} from '@mui/material'
-import Link from "next/link"
-import { Controller, UseFormHandleSubmit, FieldErrors, Control } from 'react-hook-form'
+  Controller,
+  UseFormHandleSubmit,
+  FieldErrors,
+  Control,
+} from 'react-hook-form'
 import { AuthFormState } from '~/hooks/use-auth'
 
 type Props = {
@@ -39,10 +39,9 @@ const Component: React.VFC<Props> = ({
                 fullWidth
                 label='メールアドレス'
                 margin='dense'
+                type='email'
                 error={errors.email ? true : false}
-                helperText={
-                  errors.email && errors.email.message
-                }
+                helperText={errors.email && errors.email.message}
                 {...field}
               />
             )}
@@ -57,29 +56,26 @@ const Component: React.VFC<Props> = ({
                 fullWidth
                 label='パスワード'
                 margin='dense'
+                type='password'
                 error={errors.password ? true : false}
-                helperText={
-                  errors.password && errors.password.message
-                }
+                helperText={errors.password && errors.password.message}
                 {...field}
               />
             )}
           />
         </Grid>
         <Grid item xs={12}>
-          <Button
-            fullWidth
-            type='submit'
-            disabled={!isSendable}
-          >ログイン</Button>
+          <Button fullWidth type='submit' disabled={!isSendable}>
+            ログイン
+          </Button>
         </Grid>
         <Grid item xs={12}>
           <Link href='/forget-password'>
-              <a className={styles.link}>パスワードをお忘れの方</a>
-            </Link>
-            <Link href='/signup'>
-              <a className={styles.link}>アカウントをお持ちでない方</a>
-            </Link>
+            <a className={styles.link}>パスワードをお忘れの方</a>
+          </Link>
+          <Link href='/signup'>
+            <a className={styles.link}>アカウントをお持ちでない方</a>
+          </Link>
         </Grid>
       </Grid>
     </form>

@@ -7,7 +7,7 @@ export class User {
   readonly sys: System
   readonly role?: Role
 
-  constructor (id: string, email: string, sys: System, role?: Role) {
+  constructor(id: string, email: string, sys: System, role?: Role) {
     this.id = id
     this.email = email
     this.sys = sys

@@ -1,9 +1,9 @@
-import React from "react"
+import React from 'react'
 import styles from './management.module.scss'
 import Header from '~/components/organisms/management-header'
 import { Container } from '@mui/material'
 
-type Props = {};
+type Props = {}
 
 const Component: React.FC<Props> = ({ children }) => {
   return (

@@ -6,3 +6,9 @@ $footer-h: 50px;
   position: relative;
   min-height: calc(100vh - #{($header-h + $footer-h)});
 }
+
+.hoge {
+  width: 10px;
+  height: 10px;
+  margin: 10px;
+}

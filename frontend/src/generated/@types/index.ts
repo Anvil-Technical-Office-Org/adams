@@ -77,7 +77,7 @@ export type ContentField = {
   name: string
   /**
    * フィールドの入力タイプを表す。
-   * 
+   *
    * | 形式 | 対応種別 |
    * | --- | --- |
    * | 文字列 | 0 |
@@ -94,7 +94,7 @@ export type ApiKey = {
   /**
    * API Keyのタイプ
    * 一度発行したらタイプの変更不可
-   * 
+   *
    * | タイプ | HTTP Method |
    * |---|---|
    * | 0 | GET |

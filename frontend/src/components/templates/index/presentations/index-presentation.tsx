@@ -5,7 +5,7 @@ type Props = {}
 
 const Component: React.VFC<Props> = ({}) => (
   <>
-    <h1>Welcome Adams!</h1>
+    <h1 className={styles.title}>Welcome Adams!</h1>
   </>
 )
 

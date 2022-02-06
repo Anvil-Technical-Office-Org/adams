@@ -10,7 +10,12 @@ import {
   Checkbox,
   FormHelperText,
 } from '@mui/material'
-import { Controller, UseFormHandleSubmit, FieldErrors, Control } from 'react-hook-form'
+import {
+  Controller,
+  UseFormHandleSubmit,
+  FieldErrors,
+  Control,
+} from 'react-hook-form'
 import { AuthFormState } from '~/hooks/use-auth'
 
 type Props = {
@@ -28,11 +33,11 @@ const Component: React.VFC<Props> = ({
   handleSubmit,
   control,
   errors,
-  isSendable
+  isSendable,
 }) => (
   <Container maxWidth='xs' className={styles.root}>
     <form onSubmit={handleSubmit(onSubmit, onError)}>
-    <Grid container rowSpacing={4} justifyContent='center'>
+      <Grid container rowSpacing={4} justifyContent='center'>
         <Grid item xs={12}>
           <Controller
             name='email'
@@ -42,10 +47,9 @@ const Component: React.VFC<Props> = ({
                 fullWidth
                 label='メールアドレス'
                 margin='dense'
+                type='email'
                 error={errors.email ? true : false}
-                helperText={
-                  errors.email && errors.email.message
-                }
+                helperText={errors.email && errors.email.message}
                 {...field}
               />
             )}
@@ -60,10 +64,9 @@ const Component: React.VFC<Props> = ({
                 fullWidth
                 label='パスワード'
                 margin='dense'
+                type='password'
                 error={errors.password ? true : false}
-                helperText={
-                  errors.password && errors.password.message
-                }
+                helperText={errors.password && errors.password.message}
                 {...field}
               />
             )}
@@ -79,17 +82,17 @@ const Component: React.VFC<Props> = ({
                   control={<Checkbox {...field} />}
                   label='利用規約及びプライバシポリシーに同意します。'
                 />
-                {errors.isAgreement && <FormHelperText>{errors.isAgreement.message}</FormHelperText>}
+                {errors.isAgreement && (
+                  <FormHelperText>{errors.isAgreement.message}</FormHelperText>
+                )}
               </FormControl>
             )}
           />
         </Grid>
         <Grid item xs={12}>
-          <Button
-            fullWidth
-            disabled={!isSendable}
-            type='submit'
-          >新規登録</Button>
+          <Button fullWidth disabled={!isSendable} type='submit'>
+            新規登録
+          </Button>
         </Grid>
       </Grid>
     </form>

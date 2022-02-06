@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 import styles from './management-header.module.scss'
 
 type Props = {}

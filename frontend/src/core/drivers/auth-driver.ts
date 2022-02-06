@@ -1,5 +1,8 @@
 import { client } from '~/libs/axios'
-import { IAuthDriver, AuthResponse } from '~/core/interfaces/drivers/auth-driver'
+import {
+  IAuthDriver,
+  AuthResponse,
+} from '~/core/interfaces/drivers/auth-driver'
 
 /**
  * 認証系のDriver
@@ -11,8 +14,8 @@ export default class AuthDriver implements IAuthDriver {
       const res = await client.auth.signup.$post({
         body: {
           email,
-          password
-        }
+          password,
+        },
       })
       return res
     } catch (e) {
@@ -21,13 +24,13 @@ export default class AuthDriver implements IAuthDriver {
     }
   }
 
-  async signin (email: string, password: string): Promise<AuthResponse | null> {
+  async signin(email: string, password: string): Promise<AuthResponse | null> {
     try {
       const res = await client.auth.signin.$post({
         body: {
           email,
           password,
-        }
+        },
       })
       return res
     } catch (e) {
@@ -36,7 +39,7 @@ export default class AuthDriver implements IAuthDriver {
     }
   }
 
-  async signout (): Promise<void> {
+  async signout(): Promise<void> {
     try {
       const res = await client.auth.signout.$delete()
     } catch (e) {
