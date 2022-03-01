@@ -3,9 +3,9 @@ package main
 import (
 	"backend/config"
 	"backend/db"
-	"backend/middlewares/auth"
 	"backend/server"
 	"flag"
+	"fmt"
 )
 
 func main() {
@@ -16,9 +16,9 @@ func main() {
 	config.Init(*env)
 	db.Init(*isReset)
 	defer db.Close()
-
+	fmt.Println("============リクエスト発生====================")
 	// 認証系ミドルウェアの有効化
-	auth.AuthMiddlewareInit()
+	//auth.AuthMiddlewareInit()
 	if err := server.Init(); err != nil {
 		panic(err)
 	}

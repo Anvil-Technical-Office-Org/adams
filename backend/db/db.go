@@ -26,7 +26,16 @@ func Init(isReset bool) {
 	autoMigration()
 }
 func GetDb() *gorm.DB {
-	return d
+
+	c := config.GetConfig()
+
+	// SQL実行時のログを書き出すかどうか。
+	if c.Database.OnDbLog {
+		return d.Debug() // SQLログあり
+	} else {
+		return d // なし
+	}
+
 }
 
 func Close() {
@@ -43,15 +52,19 @@ func Close() {
 // テーブルの削除
 func autoDropTable() {
 	d.Migrator().DropTable(&models.Sample{})
+	d.Migrator().DropTable(&models.User{})
 }
 
 // マイグレート処理
 func autoMigration() {
 	// uuidを使用可能にするための設定
 	d.Exec(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`)
+	// 暗号化を使用できるようにするための設定。
+	d.Exec(`CREATE EXTENSION PGCRYPTO;`)
 	// TODO : DropもMigrationも両方本当はリストを渡して管理出来るようにしたい。
 	// interfaceの配列の扱いが理解できなかったので後でやる
 	d.AutoMigrate(&models.Sample{})
+	d.AutoMigrate(&models.User{})
 }
 
 type FieldsToReplace struct {

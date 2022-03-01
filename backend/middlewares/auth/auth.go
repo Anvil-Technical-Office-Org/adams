@@ -47,6 +47,7 @@ func AuthMiddlewareInit () {
 		CookieSameSite: http.SameSiteStrictMode,
 		TokenLookup: "header: Authorization, cookie: access_token",
 		TokenHeadName: "Bearer",
+		// callBackハンドラー　auth.GetMiddleware().LoginHandler(c)
 		Authenticator: func(c *gin.Context) (interface{}, error) {
 			fmt.Println("=============Authenticator==========")
 			var sample forms.SampleForm
@@ -81,6 +82,8 @@ func AuthMiddlewareInit () {
 			fmt.Println("認証に失敗しました")
 			return nil, jwt.ErrFailedAuthentication
 		},
+
+		// これも動く
 		PayloadFunc: func(data interface{}) jwt.MapClaims {
 			fmt.Println("=============PayloadFunc==========")
 			if v, ok := data.(*forms.SampleForm); ok {
@@ -91,6 +94,8 @@ func AuthMiddlewareInit () {
 			}
 			return jwt.MapClaims{}
 		},
+
+		
 		LoginResponse: func(c *gin.Context, code int, token string, expire time.Time) {
 			// クライアント側でCookieの保存されたJWTにアクセス不可のため認証済みのフラグをセットしておく
 			expireCookie := time.Now().Add(cookieMaxAge)
@@ -108,6 +113,9 @@ func AuthMiddlewareInit () {
 				"code": http.StatusOK,
 			})
 		},
+
+
+		
 		// 認証失敗時の処理を拡張したければここを修正する
 		// とりあえず今は、ライブラリの実装をそのままコピペ
 		Unauthorized: func(c *gin.Context, code int, message string) {

@@ -13,6 +13,7 @@ import (
 
 type SampleController struct{}
 
+// GET
 func (ctrl SampleController) Index(c *gin.Context) {
 	fmt.Println("================リクエスト発生====================")
 	var sample service.SampleService
@@ -33,6 +34,7 @@ func (ctrl SampleController) Index(c *gin.Context) {
 	}
 }
 
+// POST
 func (ctrl SampleController) Create(c *gin.Context) {
 	var sample service.SampleService
 	res, err := sample.Create(c)
@@ -57,7 +59,10 @@ func (ctrl SampleController) CreateCookie (c *gin.Context) {
 	domain := "localhost"
 	secure := false
 	httpOnly := true
+
+	// CORS
 	c.SetSameSite(http.SameSiteStrictMode)
+	// クッキー作る奴　これやっとけば返る
 	c.SetCookie("cookie_test", "sample_cookie_value", maxAge, "/", domain, secure, httpOnly)
 	c.JSON(http.StatusOK, gin.H{"data": "create cookie"})
 }
@@ -82,6 +87,7 @@ func (ctrl SampleController) ConfirmAuth (c *gin.Context) {
 
 
 func (ctrl SampleController) SignupHandler (c *gin.Context) {
+	
 	fmt.Println("================サインアップ====================")
 	var sample service.SampleService
 	_, err := sample.Create(c)
