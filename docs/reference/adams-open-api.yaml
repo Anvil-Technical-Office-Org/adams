@@ -20,10 +20,11 @@ info:
     | 200 | リクエストが成功しました。 |
     | 201 | リクエストが成功し、新たなリソースが作成されました。|
     | 204 | リクエストが成功しました。<br>レスポンスとして返却するコンテンツは存在しません。 |
-    | 400 | リクエストの内容に問題があります。 以下のような理由が該当します。<br>- リクエストパラメータが不足している<br>- バリデーションエラーもここに該当？ |
-    | 401 | 認証エラーが発生しました。 |
+    | 400 | リクエストの内容に問題があります。 以下のような理由が該当します。<br>- バリデーションエラーが発生<br>- リクエストパラメータが不足している |
+    | 401 | 認証エラーが発生しました。 以下のような理由が該当します。<br>- アクセストークン不足 |
     | 403 | アクセス権限がありません。以下のような理由が該当します。<br>- 管理者のみがアクセス可能なリソースに一般ユーザーがアクセス<br>- GET権限のみが付与されたAPI KEYでのPOSTリクエスト |
     | 404 | リソースが存在しませんでした。以下のような理由が該当します。<br>- 対象のユーザーIDが存在していない。 |
+    | 409 | システム内に重複するデータが存在しています。以下のような理由が該当します。<br>- 既に登録済みのメールアドレスが存在する |
     | 415 | サポートされていないメディア形式です。 |
     | 500 | 内部サーバのエラー |
 
@@ -46,6 +47,7 @@ info:
     | 401 | The API failed to authenticate on request | APIがリクエスト時に認証に失敗しました。 |
     | 403 | Called an API to which you do not have access rights | アクセス権限がないAPIを呼び出しました。 |
     | 404 | Not Found | リソースが取得出来ませんでした。 |
+    | 409 | Resource conflicts with current state | リソースが現在の状態と競合しているため、リクエストを完了することが出来ませんでした。 |
     | 415 | Content type that is not supported by the API is specified: XXX | APIでサポートされていないコンテンツタイプが指定されました。XXXの部分には指定されたコンテンツタイプが表示されます。 |
 
     ## エラーの詳細
@@ -78,6 +80,8 @@ paths:
           $ref: '#/components/responses/200_auth_success'
         '400':
           $ref: '#/components/responses/400'
+        '409':
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
       operationId: post-auth-signup
@@ -1444,6 +1448,10 @@ components:
                 description: エラーメッセージ
             required:
               - message
+          examples:
+            example-1:
+              value:
+                message: "Called an API to which you do not have access rights\t"
     '404':
       description: リソースが存在しない。
       content:
@@ -1460,7 +1468,20 @@ components:
           examples:
             example-1:
               value:
-                message: リソースが存在しません。
+                message: Not Found
+    '409':
+      description: 現在のリソースとの競合が発生
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            example-1:
+              value:
+                message: Resource conflicts with current state
     '500':
       description: 内部サーバエラー。具体的なエラーの詳細は随時追加予定。
       content:
