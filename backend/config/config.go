@@ -14,6 +14,7 @@ type Database struct {
 	User     string `yml:"user"`
 	Password string `yml:"password"`
 	Name     string `yml:"name"`
+	OnDbLog  bool   `yml:"onDbLog"`
 }
 
 var c *Config

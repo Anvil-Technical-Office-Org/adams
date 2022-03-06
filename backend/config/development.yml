@@ -4,3 +4,5 @@ database:
   user: "admin"
   password: "admin"
   name: "adams"
+  onSqlLog: true 
+  

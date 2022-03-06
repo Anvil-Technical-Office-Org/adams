@@ -42,6 +42,29 @@ func router() (r *gin.Engine) {
 			sample.DELETE("/logout", auth.GetMiddleware().LogoutHandler)
 			sample.GET("/confirm_auth", ctrl.ConfirmAuth)
 		}
+
+		user := v1.Group("/users")
+		{
+			ctrl := controllers.UserController{}
+
+			user.GET("", ctrl.Index)
+
+			user.GET(":user_id", ctrl.GetById)
+
+			user.POST("", ctrl.Update)
+		}
+
+		auth := v1.Group("/auth")
+		{
+			ctrl := controllers.AuthController{}
+
+			auth.POST("signin", ctrl.Signin)
+
+			auth.POST("signup", ctrl.Signup)
+
+			auth.DELETE("signout", ctrl.Logout)
+		}
 	}
+
 	return
 }
