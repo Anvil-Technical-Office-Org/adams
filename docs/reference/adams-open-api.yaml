@@ -34,7 +34,7 @@ info:
     | 値 | 説明 |
     |---|---|
     | message | エラー情報を含むメッセージ。エラーメッセージの詳細は[エラーメッセージ](#section/共通仕様/エラーメッセージ) を参照してください。|
-    | details[].code | エラーコード。特定の状況では返却されません。 |
+    | details[].code | エラーコード。特定の状況では返却されません。詳しくは、[エラーの詳細](#section/共通仕様/エラーの詳細)を参照してください。 |
     | details[].message | エラーの詳細。特定の状況では返却されません。 詳しくは、[エラーの詳細](#section/共通仕様/エラーの詳細)を参照してください。|
 
     ## エラーメッセージ
@@ -42,8 +42,7 @@ info:
 
     | ステータスコード | メッセージ | 説明 |
     |:---:|---|---|
-    | 400 | Required parameter does not exist in the request body: XXX | リクエストボディに必須パラメータが存在しません。XXXの部分には不足しているパラメータが表示されます。 |
-    || Invalid property is specified in the request body: XXX | リクエストボディに無効なプロパティが指定されていました。XXXの部分には、無効なプロパティ名が表示されます。 |
+    | 400 | The request body has X error(s) | リクエストボディのJSONにエラーがありました。Xの部分にエラーの数が表示されます。詳細なエラーは`details[].message`プロパティを参照してください。 |
     | 401 | The API failed to authenticate on request | APIがリクエスト時に認証に失敗しました。 |
     | 403 | Called an API to which you do not have access rights | アクセス権限がないAPIを呼び出しました。 |
     | 404 | Not Found | リソースが取得出来ませんでした。 |
@@ -57,7 +56,11 @@ info:
 
     | ステータスコー ド| コード | メッセージ | 説明 |
     |:---:|:---:|---|---|
-    ||||
+    | 400 | 400001 | Required parameter does not exist in the request body: XXX | リクエストボディに必須パラメータが存在しません。XXXの部分には不足しているパラメータが表示されます。 |
+    | 400 | 400002 | Invalid property is specified in the request body: XXX | リクエストボディに無効なプロパティが指定されていました。XXXの部分には、無効なプロパティ名が表示されます。 |
+    | 401 | 401001 | Password missmatch | パスワード不一致 |
+    | 401 | 401002 | JWT authentication failed | JWT認証失敗 |
+    | 401 | 401003 | API KEY authentication failed | API KEY認証失敗 |
   contact:
     name: stakizawa
     email: stakizawa@anvil.ne.jp
@@ -1396,7 +1399,7 @@ paths:
 components:
   responses:
     '400':
-      description: 'リクエストに問題がある場合のレスポンス。`message`プロパティはエラーの内容によって変更される。詳細なエラーメッセージの内容は、[エラーメッセージ](#section/共通仕様/エラーメッセージ)を参照。'
+      description: 'リクエストに問題がある場合のレスポンス。`message`プロパティはエラーの内容によって変更される。詳細なエラーメッセージの内容は、[エラー詳細](#section/共通仕様/エラーの詳細)を参照。'
       content:
         application/json:
           schema:
@@ -1406,16 +1409,32 @@ components:
                 type: string
                 description: エラーメッセージの内容
                 example: 'Required parameter does not exist in the request body: XXX'
+              details:
+                type: array
+                description: エラーの詳細な内容
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
             required:
               - message
+              - details
           examples:
             example-1:
               value:
-                message: 'Required parameter does not exist in the request body: XXX'
+                message: The request body has 1 error(s)
+                details:
+                  - code: '400001'
+                    message: 'Required parameter does not exist in the request body: XXX'
       headers: {}
     '401':
       description: |-
         API呼び出し時に認証に失敗しました。失敗の理由は以下の可能性が考えれれます。
+
+        詳細なエラーメッセージの内容は、[エラー詳細](#section/共通仕様/エラーの詳細)を参照。
 
         - サインイン時のメールアドレス・パスワードの不一致による認証失敗
         - 管理画面でのJWT認証失敗
@@ -1429,12 +1448,25 @@ components:
                 type: string
                 example: The API failed to authenticate on request
                 description: エラーメッセージ
+              details:
+                type: array
+                description: エラーの詳細な内容
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
             required:
               - message
           examples:
             example-1:
               value:
                 message: The API failed to authenticate on request
+                details:
+                  - code: '401003'
+                    message: API KEY authentication failed
     '403':
       description: アクセス権限がないAPIの呼び出し。
       content:
