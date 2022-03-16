@@ -3,6 +3,7 @@ package controllers
 import (
 	"backend/forms/auth"
 	"backend/logic"
+	"backend/middlewares/auth_cookie"
 	"fmt"
 	"net/http"
 
@@ -15,7 +16,7 @@ type AuthController struct{}
 func (ctrl AuthController) Signup(c *gin.Context) {
 	fmt.Println("================リクエスト発生====================")
 
-	var form auth.AuthForm
+	var form auth.RequestForm
 
 	// ShouldBind ⇒コンテキスト破棄されるよ！
 	if err := c.ShouldBind(&form); err != nil {
@@ -31,19 +32,28 @@ func (ctrl AuthController) Signup(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	} else {
 		// CORS
-		c.SetSameSite(http.SameSiteStrictMode)
+		//c.SetSameSite(http.SameSiteStrictMode)
 
-		maxAge := 10
-		domain := "localhost"
-		secure := false
-		httpOnly := true
+		// maxAge := 10
+		// domain := "localhost"
+		// secure := false
+		// httpOnly := true
 
-		// クッキー作る奴　これやっとけば返る
-		c.SetCookie("cookie_test", "sample_cookie_value", maxAge, "/", domain, secure, httpOnly)
+		// // // クッキー作る奴　これやっとけば返る
+		// c.SetCookie("cookie_test", "sample_cookie_value", maxAge, "/", domain, secure, httpOnly)
+		// Cookie ログイン認証
+		auth_cookie.GetMiddleware().LoginHandler(c)
 
-		c.JSON(http.StatusOK, gin.H{"status": "success", "result": res})
+		c.JSON(http.StatusOK, res)
 
 	}
+
+	// defer func() {
+	// 	if e := recover(); e != nil {
+
+	// 	}
+	// }()
+
 }
 
 // サインイン
@@ -51,7 +61,7 @@ func (ctrl AuthController) Signin(c *gin.Context) {
 
 	fmt.Println("================リクエスト発生====================")
 
-	var form auth.AuthForm
+	var form auth.RequestForm
 
 	// ShouldBind ⇒コンテキスト破棄されるよ！
 	if err := c.ShouldBind(&form); err != nil {
@@ -73,15 +83,17 @@ func (ctrl AuthController) Signin(c *gin.Context) {
 
 		// CORS
 		c.SetSameSite(http.SameSiteStrictMode)
+		// Cookie ログイン認証
+		auth_cookie.GetMiddleware().LoginHandler(c)
 
-		maxAge := 10
-		domain := "localhost"
-		secure := false
-		httpOnly := true
-		// クッキー作る奴　これやっとけば返る
-		c.SetCookie("cookie_test", "sample_cookie_value", maxAge, "/", domain, secure, httpOnly)
+		// maxAge := 10
+		// domain := "localhost"
+		// secure := false
+		// httpOnly := true
+		// // クッキー作る奴　これやっとけば返る
+		// c.SetCookie("cookie_test", "sample_cookie_value", maxAge, "/", domain, secure, httpOnly)
 		// 200
-		c.JSON(http.StatusOK, gin.H{"status": "success", "result": resultForm})
+		c.JSON(http.StatusOK, resultForm)
 	} else {
 		// 認証失敗
 		c.AbortWithStatus(401)
@@ -93,6 +105,7 @@ func (ctrl AuthController) Signin(c *gin.Context) {
 func (ctrl AuthController) Logout(c *gin.Context) {
 	fmt.Println("================リクエスト発生====================")
 
-	// ログアウトってなにすりゃいいんだ？今度聞いてみよう
-	c.JSON(http.StatusOK, gin.H{"status": "success"})
+	// Cookie ログアウト認証
+	auth_cookie.GetMiddleware().LogoutHandler(c)
+	c.JSON(http.StatusOK, nil)
 }

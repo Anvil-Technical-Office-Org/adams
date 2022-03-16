@@ -1,7 +1,7 @@
 package db
 
 import (
-	"backend/config"
+	"backend/middlewares/config"
 	"backend/models"
 	"bytes"
 	"text/template"

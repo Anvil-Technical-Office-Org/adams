@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"backend/forms"
-	"backend/middlewares/auth"
+	"backend/middlewares/auth_cookie"
 	"backend/service"
 	"fmt"
 	"net/http"
@@ -46,14 +46,14 @@ func (ctrl SampleController) Create(c *gin.Context) {
 	}
 }
 
-func (ctrl SampleController) ConfirmCookie (c *gin.Context) {
+func (ctrl SampleController) ConfirmCookie(c *gin.Context) {
 	fmt.Println("================Cookie確認====================")
 	cookie_value, _ := c.Cookie("cookie_test")
 	fmt.Println("Cookieの値 ====>  ", cookie_value)
 	c.JSON(http.StatusOK, gin.H{"data": cookie_value})
 }
 
-func (ctrl SampleController) CreateCookie (c *gin.Context) {
+func (ctrl SampleController) CreateCookie(c *gin.Context) {
 	fmt.Println("================Cookie作成====================")
 	maxAge := 10
 	domain := "localhost"
@@ -77,7 +77,7 @@ func (ctrl SampleController) ConfirmRequestBody(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"response": sample})
 }
 
-func (ctrl SampleController) ConfirmAuth (c *gin.Context) {
+func (ctrl SampleController) ConfirmAuth(c *gin.Context) {
 	fmt.Println("================認証ありのエンドポイントテスト====================")
 	claims := jwt.ExtractClaims(c)
 	c.JSON(http.StatusOK, gin.H{
@@ -85,9 +85,8 @@ func (ctrl SampleController) ConfirmAuth (c *gin.Context) {
 	})
 }
 
+func (ctrl SampleController) SignupHandler(c *gin.Context) {
 
-func (ctrl SampleController) SignupHandler (c *gin.Context) {
-	
 	fmt.Println("================サインアップ====================")
 	var sample service.SampleService
 	_, err := sample.Create(c)
@@ -96,6 +95,6 @@ func (ctrl SampleController) SignupHandler (c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	} else {
 		// 以降の処理はライブラリにお任せ
-		auth.GetMiddleware().LoginHandler(c)
+		auth_cookie.GetMiddleware().LoginHandler(c)
 	}
 }

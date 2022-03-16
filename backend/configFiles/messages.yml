@@ -1,0 +1,30 @@
+httpStatusError:
+  -
+    code: 400_1
+    message: "Required parameter does not exist in the request body: XXX" 
+  -
+    code: 400_2
+    message: "Invalid property is specified in the request body: XXX" 
+  -
+    code: 401
+    message: "The API failed to authenticate on request"
+  -
+    code: 403
+    message: "Called an API to which you do not have access rights"
+  -
+    code: 404
+    message: "Not Found	"
+  -
+    code: 415
+    message: "Content type that is not supported by the API is specified: XXX"
+  -
+    code: 500
+    message: "" 
+
+internalServerError:
+  -
+    code: AUTH_001
+    message: "必須チェックエラー"
+  -
+    code: AUTH_002
+    message: "メール重複"

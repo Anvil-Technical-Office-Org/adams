@@ -1,8 +1,7 @@
-package auth
+package auth_cookie
 
 import (
 	"backend/forms"
-	"backend/service"
 	"fmt"
 	"net/http"
 	"os"
@@ -49,38 +48,39 @@ func AuthMiddlewareInit () {
 		TokenHeadName: "Bearer",
 		// callBackハンドラー　auth.GetMiddleware().LoginHandler(c)
 		Authenticator: func(c *gin.Context) (interface{}, error) {
-			fmt.Println("=============Authenticator==========")
-			var sample forms.SampleForm
-			if err := c.ShouldBind(&sample); err != nil {
-				fmt.Println("Formのバリデーションで失敗しました")
-				return "", jwt.ErrMissingLoginValues
-			}
+			// fmt.Println("=============Authenticator==========")
+			// var sample forms.SampleForm
+			// if err := c.ShouldBind(&sample); err != nil {
+			// 	fmt.Println("Formのバリデーションで失敗しました")
+			// 	return "", jwt.ErrMissingLoginValues
+			// }
 
-			name := sample.Name
-			password := sample.Password
+			// name := sample.Name
+			// password := sample.Password
 
-			var sampleService service.SampleService
-			// TODO : DB周りの処理はテキトー
-			dbSample, err := sampleService.GetByName(name)
-			if err != nil {
-				fmt.Println("DB取得時にエラーが発生しました")
-			}
+			// var sampleService service.SampleService
+			// // TODO : DB周りの処理はテキトー
+			// dbSample, err := sampleService.GetByName(name)
+			// if err != nil {
+			// 	fmt.Println("DB取得時にエラーが発生しました")
+			// }
 
-			fmt.Println("req name:", name)
-			fmt.Println("req pass:", password)
-			fmt.Println("db name:", dbSample.Name)
-			fmt.Println("db pass:", dbSample.Password)
+			// fmt.Println("req name:", name)
+			// fmt.Println("req pass:", password)
+			// fmt.Println("db name:", dbSample.Name)
+			// fmt.Println("db pass:", dbSample.Password)
 
-			if (name == dbSample.Name && password == dbSample.Password) {
-				fmt.Println("認証に成功しました")
-				return &forms.SampleForm{
-					Id: dbSample.ID.String(),
-					Name: name,
-				}, nil
-			}
+			// if (name == dbSample.Name && password == dbSample.Password) {
+			// 	fmt.Println("認証に成功しました")
+			// 	return &forms.SampleForm{
+			// 		Id: dbSample.ID.String(),
+			// 		Name: name,
+			// 	}, nil
+			// }
 
-			fmt.Println("認証に失敗しました")
-			return nil, jwt.ErrFailedAuthentication
+			// fmt.Println("認証に失敗しました")
+			//return nil, jwt.ErrFailedAuthentication
+			return nil ,nil
 		},
 
 		// これも動く
@@ -101,17 +101,17 @@ func AuthMiddlewareInit () {
 			expireCookie := time.Now().Add(cookieMaxAge)
 			maxage := int(expireCookie.Unix() - time.Now().Unix())
 			c.SetCookie("isAuthenticated", "true", maxage, "/", cookieDomain, cookieSecure, false)
-			c.JSON(http.StatusOK, gin.H{
-				"code": http.StatusOK,
-				"token": token,
-				"expire": expire.Format(time.RFC3339),
-			})
+			// c.JSON(http.StatusOK, gin.H{
+			// 	"code": http.StatusOK,
+			// 	"token": token,
+			// 	"expire": expire.Format(time.RFC3339),
+			// })
 		},
 		LogoutResponse: func(c *gin.Context, code int) {
 			c.SetCookie("isAuthenticated", "", -1, "/", cookieDomain, cookieSecure, false)
-			c.JSON(http.StatusOK, gin.H{
-				"code": http.StatusOK,
-			})
+			// c.JSON(http.StatusOK, gin.H{
+			// 	"code": http.StatusOK,
+			// })
 		},
 
 
@@ -119,10 +119,10 @@ func AuthMiddlewareInit () {
 		// 認証失敗時の処理を拡張したければここを修正する
 		// とりあえず今は、ライブラリの実装をそのままコピペ
 		Unauthorized: func(c *gin.Context, code int, message string) {
-			c.JSON(code, gin.H{
-				"code": code,
-				"message": message,
-			})
+			// c.JSON(code, gin.H{
+			// 	"code": code,
+			// 	"message": message,
+			// })
 		},
 
 	})

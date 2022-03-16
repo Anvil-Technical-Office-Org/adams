@@ -2,7 +2,7 @@ package server
 
 import (
 	"backend/controllers"
-	"backend/middlewares/auth"
+	"backend/middlewares/auth_cookie"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -34,12 +34,12 @@ func router() (r *gin.Engine) {
 			sample.POST("/create_cookie", ctrl.CreateCookie)
 			sample.POST("/confirm_request_body", ctrl.ConfirmRequestBody)
 			sample.POST("/signup", ctrl.SignupHandler)
-			sample.POST("/login", auth.GetMiddleware().LoginHandler)
-			sample.GET("/refresh_token", auth.GetMiddleware().RefreshHandler)
+			sample.POST("/login", auth_cookie.GetMiddleware().LoginHandler)
+			sample.GET("/refresh_token", auth_cookie.GetMiddleware().RefreshHandler)
 
 			// 認証必須なエンドポイントを定義
-			sample.Use(auth.GetMiddleware().MiddlewareFunc())
-			sample.DELETE("/logout", auth.GetMiddleware().LogoutHandler)
+			sample.Use(auth_cookie.GetMiddleware().MiddlewareFunc())
+			sample.DELETE("/logout", auth_cookie.GetMiddleware().LogoutHandler)
 			sample.GET("/confirm_auth", ctrl.ConfirmAuth)
 		}
 
@@ -58,11 +58,11 @@ func router() (r *gin.Engine) {
 		{
 			ctrl := controllers.AuthController{}
 
-			auth.POST("signin", ctrl.Signin)
+			auth.POST("/signin", ctrl.Signin)
 
-			auth.POST("signup", ctrl.Signup)
+			auth.POST("/signup", ctrl.Signup)
 
-			auth.DELETE("signout", ctrl.Logout)
+			auth.DELETE("/signout", ctrl.Logout)
 		}
 	}
 

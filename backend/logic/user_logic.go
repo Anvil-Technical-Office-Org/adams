@@ -1,7 +1,6 @@
 package logic
 
 import (
-	"backend/common"
 	"backend/forms/user"
 	"backend/service"
 	"errors"
@@ -28,10 +27,7 @@ func (_ UserLogic) GetAll() ([]user.UserForm, error) {
 		for _, v := range users {
 			var rec user.UserForm
 			
-			rec.Id = v.User_id.String()
-			rec.Email = v.Email
-			rec.CreatedAt = common.TimeToString(v.CreatedAt)
-			rec.UpdatedAt = common.TimeToString(v.UpdatedAt)
+			rec = user.NewUserForm(v)
 
 			results = append(results,user.UserForm(rec))
 		}
@@ -51,10 +47,7 @@ func (_ UserLogic) GetById(form user.UserForm) (user.UserForm, error) {
 		return result, err
 	} else {
 		
-		result.Id = model.User_id.String()
-		result.Email = model.Email
-		result.CreatedAt = common.TimeToString(model.CreatedAt)
-		result.UpdatedAt = common.TimeToString(model.UpdatedAt)
+		result = user.NewUserForm(model)
 
 	}
 
