@@ -4,7 +4,7 @@ import type * as Types from '../../../@types'
 export type Methods = {
   /**
    * スペース内のAPI Key一覧を取得します。
-   *
+   * 
    * ### 公開範囲
    * | ユーザー公開 | 管理画面 |
    * |:---:|:---:|
@@ -18,7 +18,7 @@ export type Methods = {
 
   /**
    * スペース内に新規でAPI Keyを発行します。
-   *
+   * 
    * ### 公開範囲
    * | ユーザー公開 | 管理画面 |
    * |:---:|:---:|

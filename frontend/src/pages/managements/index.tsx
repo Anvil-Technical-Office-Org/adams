@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Managements from '~/components/templates/managements'
 
 const Page: NextPage = () => {
   return (
@@ -7,7 +8,7 @@ const Page: NextPage = () => {
       <Head>
         <title>管理画面トップ</title>
       </Head>
-      <h1>Management Top Page</h1>
+      <Managements />
     </>
   )
 }

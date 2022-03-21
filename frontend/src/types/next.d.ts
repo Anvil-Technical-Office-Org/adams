@@ -6,14 +6,14 @@ import type { AppInitialProps } from 'next/dist/shared/lib/utils'
 
 declare module 'next' {
   type NextPage<P = {}, IP = P> = NextComponentType<NextPageContext, IP, P> & {
-    layout?: 'default' | 'management'
+    layout?: 'default' | 'management' | 'create-space'
   }
 }
 
 declare module 'next/app' {
   type AppProps<P = {}> = AppInitialProps & {
     Component: NextComponentType<NextPageContext, any, P> & {
-      layout?: 'default' | 'management'
+      layout?: 'default' | 'management' | 'create-space'
     }
     router: Router
     __N_SSG?: boolean | undefined

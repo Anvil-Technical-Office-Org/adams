@@ -1,11 +1,11 @@
 import React from 'react'
-import styles from './create-space.module.scss'
+import styles from './managements.module.scss'
 
 type Props = {}
 
 const Component: React.VFC<Props> = ({}) => (
   <>
-    <h1>Create space</h1>
+    <h1>Management Top Page</h1>
   </>
 )
 

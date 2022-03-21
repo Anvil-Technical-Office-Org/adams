@@ -21,7 +21,7 @@ const Container: React.VFC<Props> = ({}) => {
     console.log('認証結果', auth)
     if (auth) {
       setUser(auth.user)
-      router.push('/create-space')
+      router.push('/managements/create-space')
     }
   }
 

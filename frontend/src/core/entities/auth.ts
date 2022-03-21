@@ -4,11 +4,9 @@ import { bool, object, string } from 'yup'
 
 export class Auth {
   readonly user: User
-  readonly token: string
 
-  constructor(user: User, token: string) {
+  constructor(user: User) {
     this.user = user
-    this.token = token
   }
 
   getAuthTokenCookie(): string | null {

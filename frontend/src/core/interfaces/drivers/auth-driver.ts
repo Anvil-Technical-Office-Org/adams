@@ -2,7 +2,6 @@ import { User } from '~/generated/@types'
 
 export type AuthResponse = {
   user: User
-  token: string
 }
 
 export interface IAuthDriver {

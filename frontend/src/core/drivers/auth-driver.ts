@@ -2,7 +2,7 @@ import { client } from '~/libs/axios'
 import {
   IAuthDriver,
   AuthResponse,
-} from '~/core/interfaces/drivers/auth-driver'
+} from '~/core/interfaces/drivers'
 
 /**
  * 認証系のDriver

@@ -7,8 +7,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Auth } from '~/core/entities'
 
 export type AuthFormState = {
-  email: string,
-  password: string,
+  email: string
+  password: string
   isAgreement?: boolean
 }
 
@@ -16,7 +16,7 @@ export const useAuth = (isRequirePolicy: boolean = true) => {
   const setUser = useSetRecoilState(stateUser)
   const initialValues: AuthFormState = {
     email: '',
-    password: ''
+    password: '',
   }
   // サインアップ時とサインイン時でバリデーションの内容が微妙に違うので切り替え
   // ライブラリの仕様上この方法でやったけど、もっといい方法があればリファクタしたい

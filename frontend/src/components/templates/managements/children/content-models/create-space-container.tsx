@@ -1,12 +1,13 @@
 import React from 'react'
-import CreateSpacePresentation from './presentations'
+import ContentModelsPresentation from './presentations'
 
 type Props = {}
 
 const Container: React.VFC<Props> = ({}) => {
+
   return (
     <>
-      <CreateSpacePresentation />
+      <ContentModelsPresentation />
     </>
   )
 }

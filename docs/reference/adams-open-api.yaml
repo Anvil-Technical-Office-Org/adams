@@ -1548,12 +1548,8 @@ components:
             properties:
               user:
                 $ref: '#/components/schemas/User'
-              token:
-                type: string
-                description: JWT
             required:
               - user
-              - token
           examples:
             example-1:
               value:
@@ -1562,7 +1558,6 @@ components:
                   email: user@example.com
                   created_at: '1997-07-16T19:20:30.45+01:00'
                   updated_at: '1997-07-16T19:20:30.45+01:00'
-                token: string
       headers:
         'Set-Cookie: access_token':
           schema:
