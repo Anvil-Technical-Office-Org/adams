@@ -2,7 +2,7 @@
 export type Methods = {
   /** サインアウトをした際に、Cookieから認証情報を削除します。 */
   delete: {
-    status: 200
+    status: 204
 
     resHeaders: {
       /** JWTの削除 */

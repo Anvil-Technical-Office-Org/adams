@@ -12,8 +12,11 @@ export type Methods = {
    */
   get: {
     status: 200
+
     /** OK */
-    resBody: Types.Space
+    resBody: {
+      space: Types.Space
+    }
   }
 
   /**
@@ -26,8 +29,11 @@ export type Methods = {
    */
   patch: {
     status: 200
+
     /** OK */
-    resBody: Types.Space
+    resBody: {
+      space: Types.Space
+    }
 
     reqBody: {
       id?: string

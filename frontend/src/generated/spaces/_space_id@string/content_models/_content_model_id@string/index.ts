@@ -12,8 +12,11 @@ export type Methods = {
    */
   get: {
     status: 200
+
     /** OK */
-    resBody: Types.ContentModel
+    resBody: {
+      content_model: Types.ContentModel
+    }
   }
 
   /**
@@ -26,8 +29,11 @@ export type Methods = {
    */
   patch: {
     status: 200
+
     /** OK */
-    resBody: Types.ContentModel
+    resBody: {
+      content_model: Types.ContentModel
+    }
 
     reqBody: {
       id?: string

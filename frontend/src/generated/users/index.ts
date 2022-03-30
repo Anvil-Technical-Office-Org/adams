@@ -14,7 +14,10 @@ export type Methods = {
    */
   get: {
     status: 200
+
     /** OK */
-    resBody: Types.User[]
+    resBody: {
+      users: Types.User[]
+    }
   }
 }

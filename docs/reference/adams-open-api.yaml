@@ -146,8 +146,8 @@ paths:
       tags:
         - 認証
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
           headers:
             'Set-Cookie: access_token':
               schema:
@@ -176,16 +176,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                required:
+                  - users
               examples:
                 example-1:
                   value:
-                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                      email: user@example.com
-                      created_at: '1997-07-16T19:20:30.45+01:00'
-                      updated_at: '1997-07-16T19:20:30.45+01:00'
+                    users:
+                      - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                        email: user@example.com
+                        created_at: '1997-07-16T19:20:30.45+01:00'
+                        updated_at: '1997-07-16T19:20:30.45+01:00'
+                      - id: 497f6eca-6276-4993-f8a0sd-f898-faf9a9f80asdf8as09
+                        email: user2@example.com
+                        created_at: '1997-07-16T19:20:30.45+01:00'
+                        updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '500':
@@ -217,8 +227,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-              examples: {}
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                required:
+                  - user
+              examples:
+                example-1:
+                  value:
+                    user:
+                      id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      email: user@example.com
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -247,14 +269,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                required:
+                  - user
               examples:
                 example-1:
                   value:
-                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                    email: user@example.com
-                    created_at: '1997-07-16T19:20:30.45+01:00'
-                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                    user:
+                      id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      email: user@example.com
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -323,17 +351,23 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Space'
+                type: object
+                properties:
+                  spaces:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Space'
+                required:
+                  - spaces
               examples:
                 example-1:
                   value:
-                    - id: example-space
-                      name: Example Space
-                      description: スペースの説明文を記載
-                      created_at: '1997-07-16T19:20:30.45+01:00'
-                      updated_at: '1997-07-16T19:20:30.45+01:00'
+                    spaces:
+                      - id: string
+                        name: string
+                        description: string
+                        created_at: '1997-07-16T19:20:30.45+01:00'
+                        updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '500':
@@ -363,15 +397,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Space'
+                type: object
+                properties:
+                  space:
+                    $ref: '#/components/schemas/Space'
+                required:
+                  - space
               examples:
                 example-1:
                   value:
-                    id: example-space
-                    name: Example Space
-                    description: スペースの説明文を記載
-                    created_at: '1997-07-16T19:20:30.45+01:00'
-                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                    space:
+                      id: string
+                      name: string
+                      description: string
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -416,15 +456,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Space'
+                type: object
+                properties:
+                  space:
+                    $ref: '#/components/schemas/Space'
+                required:
+                  - space
               examples:
                 example-1:
                   value:
-                    id: example-space
-                    name: Example Space
-                    description: スペースの説明文を記載
-                    created_at: '1997-07-16T19:20:30.45+01:00'
-                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                    space:
+                      id: string
+                      name: string
+                      description: string
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -452,15 +498,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Space'
+                type: object
+                properties:
+                  space:
+                    $ref: '#/components/schemas/Space'
+                required:
+                  - space
               examples:
                 example-1:
                   value:
-                    id: example-space
-                    name: Example Space
-                    description: スペースの説明文を記載
-                    created_at: '1997-07-16T19:20:30.45+01:00'
-                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                    space:
+                      id: string
+                      name: string
+                      description: string
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -536,17 +588,23 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ContentModel'
+                type: object
+                properties:
+                  content_models:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentModel'
+                required:
+                  - content_models
               examples:
                 example-1:
                   value:
-                    - id: article
-                      name: 記事
-                      description: string
-                      created_at: '1997-07-16T19:20:30.45+01:00'
-                      updated_at: '1997-07-16T19:20:30.45+01:00'
+                    content_models:
+                      - id: string
+                        name: string
+                        description: string
+                        created_at: '1997-07-16T19:20:30.45+01:00'
+                        updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -580,13 +638,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ContentModel'
+                type: object
+                properties:
+                  content_model:
+                    $ref: '#/components/schemas/ContentModel'
+                required:
+                  - content_model
               examples:
                 example-1:
                   value:
-                    id: article
-                    name: 記事
-                    description: string
+                    content_model:
+                      id: string
+                      name: string
+                      description: string
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -646,15 +712,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ContentModel'
+                type: object
+                properties:
+                  content_model:
+                    $ref: '#/components/schemas/ContentModel'
+                required:
+                  - content_model
               examples:
                 example-1:
                   value:
-                    id: article
-                    name: 記事
-                    description: string
-                    created_at: '1997-07-16T19:20:30.45+01:00'
-                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                    content_model:
+                      id: string
+                      name: string
+                      description: string
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -682,15 +754,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ContentModel'
+                type: object
+                properties:
+                  content_model:
+                    $ref: '#/components/schemas/ContentModel'
+                required:
+                  - content_model
               examples:
                 example-1:
                   value:
-                    id: article
-                    name: 記事
-                    description: string
-                    created_at: '1997-07-16T19:20:30.45+01:00'
-                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                    content_model:
+                      id: string
+                      name: string
+                      description: string
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -768,18 +846,24 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ContentField'
+                type: object
+                properties:
+                  content_fields:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentField'
+                required:
+                  - content_fields
               examples:
                 example-1:
                   value:
-                    - id: title
-                      name: タイトル
-                      type: 0
-                      description: string
-                      created_at: '1997-07-16T19:20:30.45+01:00'
-                      updated_at: '1997-07-16T19:20:30.45+01:00'
+                    content_fields:
+                      - id: string
+                        name: string
+                        type: 0
+                        description: string
+                        created_at: '1997-07-16T19:20:30.45+01:00'
+                        updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -806,16 +890,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ContentField'
+                type: object
+                properties:
+                  content_field:
+                    $ref: '#/components/schemas/ContentField'
+                required:
+                  - content_field
               examples:
                 example-1:
                   value:
-                    id: title
-                    name: タイトル
-                    type: 0
-                    description: string
-                    created_at: '1997-07-16T19:20:30.45+01:00'
-                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                    content_field:
+                      id: string
+                      name: string
+                      type: 0
+                      description: string
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -865,16 +955,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ContentField'
+                type: object
+                properties:
+                  content_field:
+                    $ref: '#/components/schemas/ContentField'
+                required:
+                  - content_field
               examples:
                 example-1:
                   value:
-                    id: title
-                    name: タイトル
-                    type: 0
-                    description: string
-                    created_at: '1997-07-16T19:20:30.45+01:00'
-                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                    content_field:
+                      id: string
+                      name: string
+                      type: 0
+                      description: string
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '404':
@@ -901,16 +997,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ContentField'
+                type: object
+                properties:
+                  content_field:
+                    $ref: '#/components/schemas/ContentField'
+                required:
+                  - content_field
               examples:
                 example-1:
                   value:
-                    id: title
-                    name: タイトル
-                    type: 0
-                    description: string
-                    created_at: '1997-07-16T19:20:30.45+01:00'
-                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                    content_field:
+                      id: string
+                      name: string
+                      type: 0
+                      description: string
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -1019,6 +1121,8 @@ paths:
                               type: string
                               format: uuid
                               readOnly: true
+                          required:
+                            - id
                         - $ref: '#/components/schemas/Timestamp'
                 required:
                   - total
@@ -1092,21 +1196,27 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - type: object
-                    properties:
-                      id:
-                        type: string
-                        format: uuid
-                    required:
-                      - id
-                  - $ref: '#/components/schemas/Timestamp'
+                type: object
+                properties:
+                  item:
+                    allOf:
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                        required:
+                          - id
+                      - $ref: '#/components/schemas/Timestamp'
+                required:
+                  - item
               examples:
                 example-1:
                   value:
-                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                    created_at: '1997-07-16T19:20:30.45+01:00'
-                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                    item:
+                      id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -1156,21 +1266,27 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - type: object
-                    properties:
-                      id:
-                        type: string
-                        format: uuid
-                    required:
-                      - id
-                  - $ref: '#/components/schemas/Timestamp'
+                type: object
+                properties:
+                  item:
+                    allOf:
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                        required:
+                          - id
+                      - $ref: '#/components/schemas/Timestamp'
+                required:
+                  - item
               examples:
                 example-1:
                   value:
-                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                    created_at: '1997-07-16T19:20:30.45+01:00'
-                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                    item:
+                      id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -1199,23 +1315,28 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - type: object
-                    properties:
-                      id:
-                        type: string
-                        format: uuid
-                    required:
-                      - id
-                  - $ref: '#/components/schemas/Timestamp'
+                type: object
+                properties:
+                  item:
+                    format: uuid
+                    allOf:
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                        required:
+                          - id
+                      - $ref: '#/components/schemas/Timestamp'
+                required:
+                  - item
               examples:
                 example-1:
                   value:
-                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                    title: string
-                    content: string
-                    created_at: '1997-07-16T19:20:30.45+01:00'
-                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                    item:
+                      id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -1287,18 +1408,24 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ApiKey'
+                type: object
+                properties:
+                  api_keys:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ApiKey'
+                required:
+                  - api_keys
               examples:
                 example-1:
                   value:
-                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                      type:
-                        - 0
-                      key: 543h25ui42307c5n43298c534y285c0nyp43h5982c347nc584250cpn
-                      created_at: '1997-07-16T19:20:30.45+01:00'
-                      updated_at: '1997-07-16T19:20:30.45+01:00'
+                    api_keys:
+                      - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                        type:
+                          - 0
+                        key: string
+                        created_at: '1997-07-16T19:20:30.45+01:00'
+                        updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -1326,16 +1453,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiKey'
+                type: object
+                properties:
+                  api_key:
+                    $ref: '#/components/schemas/ApiKey'
+                required:
+                  - api_key
               examples:
                 example-1:
                   value:
-                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                    type:
-                      - 0
-                    key: 543h25ui42307c5n43298c534y285c0nyp43h5982c347nc584250cpn
-                    created_at: '1997-07-16T19:20:30.45+01:00'
-                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                    api_key:
+                      id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      type:
+                        - 0
+                      key: string
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
           $ref: '#/components/responses/400'
         '401':

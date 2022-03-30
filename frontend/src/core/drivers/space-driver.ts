@@ -1,9 +1,9 @@
 import { client } from '~/libs/axios'
 import { ISpaceDriver } from '~/core/interfaces/drivers'
-import { Space } from '~/generated/@types'
+import { Methods as MethodsSpaces } from '~/generated/spaces'
 
 export default class SpaceDriver implements ISpaceDriver {
-  async create(id: string, name: string, description?: string): Promise<Space | null> {
+  async create(id: string, name: string, description?: string): Promise<MethodsSpaces['post']['resBody'] | null> {
     try {
       const res = await client.spaces.$post({
         body: {

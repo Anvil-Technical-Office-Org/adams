@@ -14,8 +14,11 @@ export type Methods = {
    */
   get: {
     status: 200
+
     /** OK */
-    resBody: Types.User
+    resBody: {
+      user: Types.User
+    }
   }
 
   /**
@@ -28,8 +31,11 @@ export type Methods = {
    */
   patch: {
     status: 200
+
     /** OK */
-    resBody: Types.User
+    resBody: {
+      user: Types.User
+    }
 
     reqBody: {
       email?: string

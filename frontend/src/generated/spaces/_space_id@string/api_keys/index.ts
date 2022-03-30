@@ -12,8 +12,11 @@ export type Methods = {
    */
   get: {
     status: 200
+
     /** OK */
-    resBody: Types.ApiKey[]
+    resBody: {
+      api_keys: Types.ApiKey[]
+    }
   }
 
   /**
@@ -26,8 +29,12 @@ export type Methods = {
    */
   post: {
     status: 201
+
     /** Created */
-    resBody: Types.ApiKey
+    resBody: {
+      api_key: Types.ApiKey
+    }
+
     reqBody: Types.ApiKey
   }
 }

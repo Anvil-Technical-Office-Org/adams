@@ -15,6 +15,6 @@ export default class SpaceRepository implements ISpaceRepository {
     const res = await this.driver.create(id, name)
     if (!res) return null
     // TODO : descriptionの渡し方もっといい感じにしたい
-    return new Space(res.id, res.name, res.description || '', convertSystem<SpaceModel>(res))
+    return new Space(res.space.id, res.space.name, res.space.description || '', convertSystem<SpaceModel>(res.space))
   }
 }

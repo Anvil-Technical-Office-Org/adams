@@ -16,8 +16,11 @@ export type Methods = {
    */
   get: {
     status: 200
+
     /** OK */
-    resBody: Types.Space[]
+    resBody: {
+      spaces: Types.Space[]
+    }
   }
 
   /**
@@ -30,8 +33,12 @@ export type Methods = {
    */
   post: {
     status: 201
+
     /** Created */
-    resBody: Types.Space
+    resBody: {
+      space: Types.Space
+    }
+
     reqBody: Types.Space
   }
 }

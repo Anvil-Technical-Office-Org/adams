@@ -33,7 +33,7 @@ export type Methods = {
       /** 何件目から取得されたか */
       skip: number
       items: ({
-        id?: string
+        id: string
       } & Types.Timestamp)[]
     }
   }
@@ -51,8 +51,10 @@ export type Methods = {
 
     /** Created */
     resBody: {
-      id: string
-    } & Types.Timestamp
+      item: {
+        id: string
+      } & Types.Timestamp
+    }
 
     /** リクエストボディは、ユーザーが任意で設定したコンテンツフィールドによるためここでは定義しない */
     reqBody: {

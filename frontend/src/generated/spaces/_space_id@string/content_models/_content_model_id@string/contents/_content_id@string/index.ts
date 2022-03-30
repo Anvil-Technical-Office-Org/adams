@@ -15,8 +15,10 @@ export type Methods = {
 
     /** OK */
     resBody: {
-      id: string
-    } & Types.Timestamp
+      item: {
+        id: string
+      } & Types.Timestamp
+    }
   }
 
   /**
@@ -32,8 +34,10 @@ export type Methods = {
 
     /** OK */
     resBody: {
-      id: string
-    } & Types.Timestamp
+      item: {
+        id: string
+      } & Types.Timestamp
+    }
   }
 
   /**

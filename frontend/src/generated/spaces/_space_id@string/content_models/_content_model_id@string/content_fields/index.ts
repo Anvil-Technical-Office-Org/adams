@@ -12,8 +12,11 @@ export type Methods = {
    */
   get: {
     status: 200
+
     /** OK */
-    resBody: Types.ContentField[]
+    resBody: {
+      content_fields: Types.ContentField[]
+    }
   }
 
   /**
@@ -26,8 +29,12 @@ export type Methods = {
    */
   post: {
     status: 201
+
     /** Created */
-    resBody: Types.ContentField
+    resBody: {
+      content_field: Types.ContentField
+    }
+
     reqBody: Types.ContentField
   }
 }

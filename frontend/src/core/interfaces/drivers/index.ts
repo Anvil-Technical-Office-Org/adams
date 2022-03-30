@@ -1,6 +1,5 @@
 export type {
   IAuthDriver,
-  AuthResponse,
 } from './auth-driver'
 
 export type {
