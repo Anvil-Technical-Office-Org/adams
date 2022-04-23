@@ -4,4 +4,4 @@ export type {
 
 export type {
   ISpaceUseCase
-} from './space-user-case'
+} from './space-use-case'

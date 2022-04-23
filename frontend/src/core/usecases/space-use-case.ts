@@ -12,4 +12,8 @@ export default class SpaceUseCase implements ISpaceUseCase {
   async create(id: string, name: string, description?: string): Promise<Space | null> {
     return await this.repository.create(id, name, description)
   }
+
+  async getSpaces(): Promise<Space[] | null> {
+    return await this.repository.getSpaces()
+  }
 }

@@ -1,4 +1,4 @@
-import { Auth, System, User } from '~/core/entities'
+import { Auth, User } from '~/core/entities'
 import { IAuthRepository } from '~/core/interfaces/repositories'
 import { IAuthDriver } from '~/core/interfaces/drivers'
 import { User as UserModel } from '~/generated/@types'

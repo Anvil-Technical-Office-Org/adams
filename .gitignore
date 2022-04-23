@@ -101,3 +101,8 @@ sw.*
 
 # Vim swap files
 *.swp
+
+/frontend/src/**/varifications
+/frontend/src/**/varifications.tsx
+/frontend/.storybook
+/frontend/src/stories

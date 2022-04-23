@@ -3,7 +3,7 @@ import CreateSpacePresentation from './presentations'
 import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Space } from '~/core/entities'
-import SpaceUseCase from '~/core/usecases/space-user-case'
+import SpaceUseCase from '~/core/usecases/space-use-case'
 import SpaceRepository from '~/core/repositories/space-repository'
 import SpaceDriver from '~/core/drivers/space-driver'
 import { useRouter } from 'next/router'
@@ -31,7 +31,6 @@ const Container: React.VFC<Props> = ({}) => {
   const { errors, isValid } = methods.formState
 
   const create: SubmitHandler<State> = async data => {
-    console.log('create')
     const usecase = new SpaceUseCase(new SpaceRepository(new SpaceDriver))
     const space = await usecase.create(data.id, data.name, data.description)
     router.push('/managements/content-models')
