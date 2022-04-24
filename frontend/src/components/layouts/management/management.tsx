@@ -9,9 +9,7 @@ const Component: React.FC<Props> = ({ children }) => {
   return (
     <>
       <Header />
-      <Container>
-        <main>{children}</main>
-      </Container>
+      <main>{children}</main>
     </>
   )
 }

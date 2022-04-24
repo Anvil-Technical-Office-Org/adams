@@ -1,6 +1,6 @@
 import React from 'react'
-import styles from './content-models.module.scss'
-import { State } from '../content-models-container'
+import styles from './create-space.module.scss'
+import { State } from '../create-space-container'
 import { Grid, TextField, Button, Container } from '@mui/material'
 import {
   Controller,

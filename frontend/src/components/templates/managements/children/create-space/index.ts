@@ -1,1 +1,1 @@
-export { default } from './content-models-container'
+export { default } from './create-space-container'

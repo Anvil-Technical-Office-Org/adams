@@ -5,3 +5,7 @@ export type {
 export type {
   ISpaceUseCase
 } from './space-use-case'
+
+export type {
+  IContentModelUseCase
+} from './content-model-use-case'

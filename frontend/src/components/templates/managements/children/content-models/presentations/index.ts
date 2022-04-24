@@ -1,1 +1,1 @@
-export { default } from './create-space-presentation'
+export { default } from './content-models-presentation'
