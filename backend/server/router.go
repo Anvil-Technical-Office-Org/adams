@@ -3,6 +3,7 @@ package server
 import (
 	"backend/controllers"
 	"backend/middlewares/auth_cookie"
+	"fmt"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -24,6 +25,7 @@ func router() (r *gin.Engine) {
 
 	v1 := r.Group("/v1")
 	{
+
 		sample := v1.Group("/samples")
 		{
 			ctrl := controllers.SampleController{}
@@ -43,27 +45,46 @@ func router() (r *gin.Engine) {
 			sample.GET("/confirm_auth", ctrl.ConfirmAuth)
 		}
 
-		user := v1.Group("/users")
-		{
-			ctrl := controllers.UserController{}
+		// 所為、コントローラー側にルーティングを書けるようにするための部品
+		fmt.Println("<コントローラーからエンドポイントを取得してRouting化>")
+		// リフレクションとか存在しないので、下記メソッドの中に作ったコントローラーは全部書かないといけない。//構造体言語が悪い
+		base := controllers.InitEndPoint()
 
-			user.GET("", ctrl.Index)
+		//上記までで作ったエンドポイントとルーティングをそれぞれに振り分ける
+		for _, ep := range base.EndpointList {
+			fmt.Println("Group:" + ep.Endpoint)
+			endpoint := v1.Group(ep.Endpoint)
 
-			user.GET(":user_id", ctrl.GetById)
+			for _, routs := range ep.Routings {
+				switch routs.MethodType {
+				case "GET": // 取得
+					fmt.Println("GET:" + routs.Endpoint)
+					endpoint.GET(routs.Endpoint, routs.Function)
 
-			user.POST("", ctrl.Update)
+				case "POST": // 登録
+					fmt.Println("POST:" + routs.Endpoint)
+					endpoint.POST(routs.Endpoint, routs.Function)
+
+				case "PATCH": // 更新
+					fmt.Println("PATCH:" + routs.Endpoint)
+					endpoint.PATCH(routs.Endpoint, routs.Function)
+
+				case "DELETE": // 削除
+					fmt.Println("DELETE:" + routs.Endpoint)
+					endpoint.DELETE(routs.Endpoint, routs.Function)
+
+				case "PUT": // なんだっけ？
+					fmt.Println("PUT:" + routs.Endpoint)
+					endpoint.PUT(routs.Endpoint, routs.Function)
+
+				case "HEAD": // なんだっけ？（GINに定義されてたから持ってきた。
+					fmt.Println("HEAD:" + routs.Endpoint)
+					endpoint.HEAD(routs.Endpoint, routs.Function)
+				}
+
+			}
 		}
 
-		auth := v1.Group("/auth")
-		{
-			ctrl := controllers.AuthController{}
-
-			auth.POST("/signin", ctrl.Signin)
-
-			auth.POST("/signup", ctrl.Signup)
-
-			auth.DELETE("/signout", ctrl.Logout)
-		}
 	}
 
 	return

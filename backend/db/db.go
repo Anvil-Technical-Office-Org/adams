@@ -53,6 +53,7 @@ func Close() {
 func autoDropTable() {
 	d.Migrator().DropTable(&models.Sample{})
 	d.Migrator().DropTable(&models.User{})
+	d.Migrator().DropTable(&models.Space{})
 }
 
 // マイグレート処理
@@ -65,6 +66,7 @@ func autoMigration() {
 	// interfaceの配列の扱いが理解できなかったので後でやる
 	d.AutoMigrate(&models.Sample{})
 	d.AutoMigrate(&models.User{})
+	d.AutoMigrate(&models.Space{})
 }
 
 type FieldsToReplace struct {

@@ -118,11 +118,12 @@ func AuthMiddlewareInit () {
 		
 		// 認証失敗時の処理を拡張したければここを修正する
 		// とりあえず今は、ライブラリの実装をそのままコピペ
+		//	認証失敗時のオーバーライド
 		Unauthorized: func(c *gin.Context, code int, message string) {
-			// c.JSON(code, gin.H{
-			// 	"code": code,
-			// 	"message": message,
-			// })
+			c.JSON(code, gin.H{
+				"code": code,
+				"message": message,
+			})
 		},
 
 	})
