@@ -12,6 +12,24 @@ import (
 
 type AuthController struct{}
 
+// コントローラー作成
+func CreateAuthController() IController{
+	var ctrl AuthController
+
+	return ctrl
+}
+
+// エンドポイント作成
+func (ctrl AuthController)CreateEndpoint() EndpointBase{
+	var endpoint EndpointBase
+	fmt.Println("auth")
+	endpoint.Endpoint = "/auth"
+	endpoint.AddRoutings("POST","/signin",ctrl.Signin)
+	endpoint.AddRoutings("POST","/signup",ctrl.Signup)
+	endpoint.AddRoutings("DELETE","/signout",ctrl.Logout)
+
+	return endpoint
+}
 // サインアップ
 func (ctrl AuthController) Signup(c *gin.Context) {
 	fmt.Println("================リクエスト発生====================")
@@ -32,19 +50,12 @@ func (ctrl AuthController) Signup(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	} else {
 		// CORS
-		//c.SetSameSite(http.SameSiteStrictMode)
+		c.SetSameSite(http.SameSiteStrictMode)
 
-		// maxAge := 10
-		// domain := "localhost"
-		// secure := false
-		// httpOnly := true
-
-		// // // クッキー作る奴　これやっとけば返る
-		// c.SetCookie("cookie_test", "sample_cookie_value", maxAge, "/", domain, secure, httpOnly)
 		// Cookie ログイン認証
 		auth_cookie.GetMiddleware().LoginHandler(c)
 
-		c.JSON(http.StatusOK, res)
+		c.JSON(http.StatusOK, gin.H{"user": res})
 
 	}
 
@@ -85,15 +96,8 @@ func (ctrl AuthController) Signin(c *gin.Context) {
 		c.SetSameSite(http.SameSiteStrictMode)
 		// Cookie ログイン認証
 		auth_cookie.GetMiddleware().LoginHandler(c)
-
-		// maxAge := 10
-		// domain := "localhost"
-		// secure := false
-		// httpOnly := true
-		// // クッキー作る奴　これやっとけば返る
-		// c.SetCookie("cookie_test", "sample_cookie_value", maxAge, "/", domain, secure, httpOnly)
 		// 200
-		c.JSON(http.StatusOK, resultForm)
+		c.JSON(http.StatusOK, gin.H{"user": resultForm} )
 	} else {
 		// 認証失敗
 		c.AbortWithStatus(401)

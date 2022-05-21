@@ -29,7 +29,7 @@ func (_ UserLogic) GetAll() ([]user.UserForm, error) {
 			
 			rec = user.NewUserForm(v)
 
-			results = append(results,user.UserForm(rec))
+			results = append(results,rec)
 		}
 	}
 	return results, nil
