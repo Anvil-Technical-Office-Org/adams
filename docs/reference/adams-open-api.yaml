@@ -340,6 +340,44 @@ paths:
         | | ● |
       security:
         - JWT: []
+  '/users/{user_id}/spaces':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+    get:
+      summary: ユーザーに紐づくスペース一覧取得
+      tags:
+        - ユーザー
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  spaces:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Space'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+      operationId: get-users-user_id-spaces
+      security:
+        - API Key: []
+        - JWT: []
+      description: |-
+        ユーザーに紐づくスペースの一覧を取得します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
   /spaces:
     get:
       summary: スペース一覧を取得

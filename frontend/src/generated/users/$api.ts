@@ -5,11 +5,14 @@ import { AspidaClient, BasicHeaders } from 'aspida'
 import { Methods as Methods0 } from '.'
 // prettier-ignore
 import { Methods as Methods1 } from './_user_id@string'
+// prettier-ignore
+import { Methods as Methods2 } from './_user_id@string/spaces'
 
 // prettier-ignore
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const prefix = (baseURL === undefined ? 'http://localhost:8080/v1' : baseURL).replace(/\/$/, '')
   const PATH0 = '/users'
+  const PATH1 = '/spaces'
   const GET = 'GET'
   const DELETE = 'DELETE'
   const PATCH = 'PATCH'
@@ -19,6 +22,31 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
       const prefix0 = `${PATH0}/${val0}`
 
       return {
+        spaces: {
+          /**
+           * ユーザーに紐づくスペースの一覧を取得します。
+           *
+           * ### 公開範囲
+           * | ユーザー公開 | 管理画面 |
+           * |:---:|:---:|
+           * | ● | ● |
+           * @returns OK
+           */
+          get: (option?: { config?: T }) =>
+            fetch<Methods2['get']['resBody'], BasicHeaders, Methods2['get']['status']>(prefix, `${prefix0}${PATH1}`, GET, option).json(),
+          /**
+           * ユーザーに紐づくスペースの一覧を取得します。
+           *
+           * ### 公開範囲
+           * | ユーザー公開 | 管理画面 |
+           * |:---:|:---:|
+           * | ● | ● |
+           * @returns OK
+           */
+          $get: (option?: { config?: T }) =>
+            fetch<Methods2['get']['resBody'], BasicHeaders, Methods2['get']['status']>(prefix, `${prefix0}${PATH1}`, GET, option).json().then(r => r.body),
+          $path: () => `${prefix}${prefix0}${PATH1}`
+        },
         /**
          * ユーザーIDに紐づくユーザー情報を取得します。
          *
