@@ -726,6 +726,96 @@ paths:
                   description: string
                   created_at: '1997-07-16T19:20:30.45+01:00'
                   updated_at: '1997-07-16T19:20:30.45+01:00'
+  '/spaces/{space_id}/bulk_content_models':
+    parameters:
+      - schema:
+          type: string
+        name: space_id
+        in: path
+        required: true
+    post:
+      summary: コンテンツモデルとコンテンツフィールド作成
+      tags:
+        - コンテンツモデル
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content_model:
+                    $ref: '#/components/schemas/ContentModel'
+                  content_fields:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentField'
+              examples:
+                example-1:
+                  value:
+                    content_model:
+                      id: string
+                      name: string
+                      description: string
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
+                    content_fields:
+                      - id: string
+                        name: string
+                        type: 0
+                        description: string
+                        created_at: '1997-07-16T19:20:30.45+01:00'
+                        updated_at: '1997-07-16T19:20:30.45+01:00'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          description: Internal Server Error
+      operationId: post-spaces-space_id-bulk_content_models
+      description: |-
+        スペース内にコンテンツモデルとコンテンツフィールドを一括作成します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
+      security:
+        - API Key: []
+        - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content_model:
+                  $ref: '#/components/schemas/ContentModel'
+                content_fields:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/ContentField'
+            examples:
+              example-1:
+                value:
+                  content_model:
+                    id: string
+                    name: string
+                    description: string
+                    created_at: '1997-07-16T19:20:30.45+01:00'
+                    updated_at: '1997-07-16T19:20:30.45+01:00'
+                  content_fields:
+                    - id: string
+                      name: string
+                      type: 0
+                      description: string
+                      created_at: '1997-07-16T19:20:30.45+01:00'
+                      updated_at: '1997-07-16T19:20:30.45+01:00'
   '/spaces/{space_id}/content_models/{content_model_id}':
     parameters:
       - name: space_id
@@ -978,6 +1068,79 @@ paths:
                   name: タイトル
                   type: 0
                   description: string
+  '/spaces/{space_id}/content_models/{content_model_id}/bulk_content_fields':
+    parameters:
+      - schema:
+          type: string
+        name: space_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: content_model_id
+        in: path
+        required: true
+    post:
+      summary: コンテンツフィールド一括作成
+      tags:
+        - コンテンツフィールド
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content_fields:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentField'
+              examples:
+                example-1:
+                  value:
+                    content_fields:
+                      - id: string
+                        name: string
+                        type: 0
+                        description: string
+                        created_at: '1997-07-16T19:20:30.45+01:00'
+                        updated_at: '1997-07-16T19:20:30.45+01:00'
+        '400':
+          description: Bad Request
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      operationId: post-spaces-space_id-content_models-content_model_id-bulk_content_fields
+      description: |-
+        コンテンツモデル内にコンテンツフィールドを一括作成します。
+
+        ### 公開範囲
+        | ユーザー公開 | 管理画面 |
+        |:---:|:---:|
+        | ● | ● |
+      security:
+        - API Key: []
+        - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentField'
+            examples:
+              example-1:
+                value:
+                  id: string
+                  name: string
+                  type: 0
+                  description: string
+                  created_at: '1997-07-16T19:20:30.45+01:00'
+                  updated_at: '1997-07-16T19:20:30.45+01:00'
   '/spaces/{space_id}/content_models/{content_id}/content_fields/{content_field_id}':
     parameters:
       - $ref: '#/components/parameters/space_id'
@@ -1927,9 +2090,11 @@ components:
 
                 | 形式 | 対応種別 |
                 | --- | --- |
-                | 文字列 | 0 |
-                | 数値 | 1 |
-                | 画像 | 2 |
+                | テキスト| 0 |
+                | テキストエリア | 1 |
+                | リッチテキスト | 2 |
+                | 数値 | 3 |
+                | 画像 | 4 |
               enum:
                 - 0
                 - 1

@@ -16,23 +16,27 @@ import { Methods as Methods5 } from './spaces/_space_id@string/api_keys'
 // prettier-ignore
 import { Methods as Methods6 } from './spaces/_space_id@string/api_keys/_api_key_id@string'
 // prettier-ignore
-import { Methods as Methods7 } from './spaces/_space_id@string/content_models'
+import { Methods as Methods7 } from './spaces/_space_id@string/bulk_content_models'
 // prettier-ignore
-import { Methods as Methods8 } from './spaces/_space_id@string/content_models/_content_id@string/content_fields/_content_field_id@string'
+import { Methods as Methods8 } from './spaces/_space_id@string/content_models'
 // prettier-ignore
-import { Methods as Methods9 } from './spaces/_space_id@string/content_models/_content_model_id@string'
+import { Methods as Methods9 } from './spaces/_space_id@string/content_models/_content_id@string/content_fields/_content_field_id@string'
 // prettier-ignore
-import { Methods as Methods10 } from './spaces/_space_id@string/content_models/_content_model_id@string/content_fields'
+import { Methods as Methods10 } from './spaces/_space_id@string/content_models/_content_model_id@string'
 // prettier-ignore
-import { Methods as Methods11 } from './spaces/_space_id@string/content_models/_content_model_id@string/contents'
+import { Methods as Methods11 } from './spaces/_space_id@string/content_models/_content_model_id@string/bulk_content_fields'
 // prettier-ignore
-import { Methods as Methods12 } from './spaces/_space_id@string/content_models/_content_model_id@string/contents/_content_id@string'
+import { Methods as Methods12 } from './spaces/_space_id@string/content_models/_content_model_id@string/content_fields'
 // prettier-ignore
-import { Methods as Methods13 } from './users'
+import { Methods as Methods13 } from './spaces/_space_id@string/content_models/_content_model_id@string/contents'
 // prettier-ignore
-import { Methods as Methods14 } from './users/_user_id@string'
+import { Methods as Methods14 } from './spaces/_space_id@string/content_models/_content_model_id@string/contents/_content_id@string'
 // prettier-ignore
-import { Methods as Methods15 } from './users/_user_id@string/spaces'
+import { Methods as Methods15 } from './users'
+// prettier-ignore
+import { Methods as Methods16 } from './users/_user_id@string'
+// prettier-ignore
+import { Methods as Methods17 } from './users/_user_id@string/spaces'
 
 // prettier-ignore
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
@@ -42,10 +46,12 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH2 = '/auth/signup'
   const PATH3 = '/spaces'
   const PATH4 = '/api_keys'
-  const PATH5 = '/content_models'
-  const PATH6 = '/content_fields'
-  const PATH7 = '/contents'
-  const PATH8 = '/users'
+  const PATH5 = '/bulk_content_models'
+  const PATH6 = '/content_models'
+  const PATH7 = '/content_fields'
+  const PATH8 = '/bulk_content_fields'
+  const PATH9 = '/contents'
+  const PATH10 = '/users'
   const GET = 'GET'
   const POST = 'POST'
   const DELETE = 'DELETE'
@@ -196,14 +202,39 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
               fetch<Methods5['post']['resBody'], BasicHeaders, Methods5['post']['status']>(prefix, `${prefix1}${PATH4}`, POST, option).json().then(r => r.body),
             $path: () => `${prefix}${prefix1}${PATH4}`
           },
+          bulk_content_models: {
+            /**
+             * スペース内にコンテンツモデルとコンテンツフィールドを一括作成します。
+             *
+             * ### 公開範囲
+             * | ユーザー公開 | 管理画面 |
+             * |:---:|:---:|
+             * | ● | ● |
+             * @returns Created
+             */
+            post: (option: { body: Methods7['post']['reqBody'], config?: T }) =>
+              fetch<Methods7['post']['resBody'], BasicHeaders, Methods7['post']['status']>(prefix, `${prefix1}${PATH5}`, POST, option).json(),
+            /**
+             * スペース内にコンテンツモデルとコンテンツフィールドを一括作成します。
+             *
+             * ### 公開範囲
+             * | ユーザー公開 | 管理画面 |
+             * |:---:|:---:|
+             * | ● | ● |
+             * @returns Created
+             */
+            $post: (option: { body: Methods7['post']['reqBody'], config?: T }) =>
+              fetch<Methods7['post']['resBody'], BasicHeaders, Methods7['post']['status']>(prefix, `${prefix1}${PATH5}`, POST, option).json().then(r => r.body),
+            $path: () => `${prefix}${prefix1}${PATH5}`
+          },
           content_models: {
             _content_id: (val3: string) => {
-              const prefix3 = `${prefix1}${PATH5}/${val3}`
+              const prefix3 = `${prefix1}${PATH6}/${val3}`
 
               return {
                 content_fields: {
                   _content_field_id: (val5: string) => {
-                    const prefix5 = `${prefix3}${PATH6}/${val5}`
+                    const prefix5 = `${prefix3}${PATH7}/${val5}`
 
                     return {
                       /**
@@ -216,7 +247,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                        * @returns OK
                        */
                       get: (option?: { config?: T }) =>
-                        fetch<Methods8['get']['resBody'], BasicHeaders, Methods8['get']['status']>(prefix, prefix5, GET, option).json(),
+                        fetch<Methods9['get']['resBody'], BasicHeaders, Methods9['get']['status']>(prefix, prefix5, GET, option).json(),
                       /**
                        * コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドの情報を取得します。
                        *
@@ -227,7 +258,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                        * @returns OK
                        */
                       $get: (option?: { config?: T }) =>
-                        fetch<Methods8['get']['resBody'], BasicHeaders, Methods8['get']['status']>(prefix, prefix5, GET, option).json().then(r => r.body),
+                        fetch<Methods9['get']['resBody'], BasicHeaders, Methods9['get']['status']>(prefix, prefix5, GET, option).json().then(r => r.body),
                       /**
                        * コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドを更新します。
                        *
@@ -237,8 +268,8 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                        * | ● | ● |
                        * @returns OK
                        */
-                      patch: (option: { body: Methods8['patch']['reqBody'], config?: T }) =>
-                        fetch<Methods8['patch']['resBody'], BasicHeaders, Methods8['patch']['status']>(prefix, prefix5, PATCH, option).json(),
+                      patch: (option: { body: Methods9['patch']['reqBody'], config?: T }) =>
+                        fetch<Methods9['patch']['resBody'], BasicHeaders, Methods9['patch']['status']>(prefix, prefix5, PATCH, option).json(),
                       /**
                        * コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドを更新します。
                        *
@@ -248,8 +279,8 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                        * | ● | ● |
                        * @returns OK
                        */
-                      $patch: (option: { body: Methods8['patch']['reqBody'], config?: T }) =>
-                        fetch<Methods8['patch']['resBody'], BasicHeaders, Methods8['patch']['status']>(prefix, prefix5, PATCH, option).json().then(r => r.body),
+                      $patch: (option: { body: Methods9['patch']['reqBody'], config?: T }) =>
+                        fetch<Methods9['patch']['resBody'], BasicHeaders, Methods9['patch']['status']>(prefix, prefix5, PATCH, option).json().then(r => r.body),
                       /**
                        * コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドを削除します。
                        *
@@ -259,7 +290,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                        * | ● | ● |
                        */
                       delete: (option?: { config?: T }) =>
-                        fetch<void, BasicHeaders, Methods8['delete']['status']>(prefix, prefix5, DELETE, option).send(),
+                        fetch<void, BasicHeaders, Methods9['delete']['status']>(prefix, prefix5, DELETE, option).send(),
                       /**
                        * コンテンツモデル内のコンテンツフィールドIDに紐づく、コンテンツフィールドを削除します。
                        *
@@ -269,7 +300,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                        * | ● | ● |
                        */
                       $delete: (option?: { config?: T }) =>
-                        fetch<void, BasicHeaders, Methods8['delete']['status']>(prefix, prefix5, DELETE, option).send().then(r => r.body),
+                        fetch<void, BasicHeaders, Methods9['delete']['status']>(prefix, prefix5, DELETE, option).send().then(r => r.body),
                       $path: () => `${prefix}${prefix5}`
                     }
                   }
@@ -277,9 +308,34 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
               }
             },
             _content_model_id: (val3: string) => {
-              const prefix3 = `${prefix1}${PATH5}/${val3}`
+              const prefix3 = `${prefix1}${PATH6}/${val3}`
 
               return {
+                bulk_content_fields: {
+                  /**
+                   * コンテンツモデル内にコンテンツフィールドを一括作成します。
+                   *
+                   * ### 公開範囲
+                   * | ユーザー公開 | 管理画面 |
+                   * |:---:|:---:|
+                   * | ● | ● |
+                   * @returns Created
+                   */
+                  post: (option: { body: Methods11['post']['reqBody'], config?: T }) =>
+                    fetch<Methods11['post']['resBody'], BasicHeaders, Methods11['post']['status']>(prefix, `${prefix3}${PATH8}`, POST, option).json(),
+                  /**
+                   * コンテンツモデル内にコンテンツフィールドを一括作成します。
+                   *
+                   * ### 公開範囲
+                   * | ユーザー公開 | 管理画面 |
+                   * |:---:|:---:|
+                   * | ● | ● |
+                   * @returns Created
+                   */
+                  $post: (option: { body: Methods11['post']['reqBody'], config?: T }) =>
+                    fetch<Methods11['post']['resBody'], BasicHeaders, Methods11['post']['status']>(prefix, `${prefix3}${PATH8}`, POST, option).json().then(r => r.body),
+                  $path: () => `${prefix}${prefix3}${PATH8}`
+                },
                 content_fields: {
                   /**
                    * コンテンツモデル内のコンテンツフィールド一覧を取得します。
@@ -291,7 +347,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                    * @returns OK
                    */
                   get: (option?: { config?: T }) =>
-                    fetch<Methods10['get']['resBody'], BasicHeaders, Methods10['get']['status']>(prefix, `${prefix3}${PATH6}`, GET, option).json(),
+                    fetch<Methods12['get']['resBody'], BasicHeaders, Methods12['get']['status']>(prefix, `${prefix3}${PATH7}`, GET, option).json(),
                   /**
                    * コンテンツモデル内のコンテンツフィールド一覧を取得します。
                    *
@@ -302,7 +358,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                    * @returns OK
                    */
                   $get: (option?: { config?: T }) =>
-                    fetch<Methods10['get']['resBody'], BasicHeaders, Methods10['get']['status']>(prefix, `${prefix3}${PATH6}`, GET, option).json().then(r => r.body),
+                    fetch<Methods12['get']['resBody'], BasicHeaders, Methods12['get']['status']>(prefix, `${prefix3}${PATH7}`, GET, option).json().then(r => r.body),
                   /**
                    * コンテンツモデル内に、コンテンツフィールドを新規作成します。
                    *
@@ -312,8 +368,8 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                    * | ● | ● |
                    * @returns Created
                    */
-                  post: (option: { body: Methods10['post']['reqBody'], config?: T }) =>
-                    fetch<Methods10['post']['resBody'], BasicHeaders, Methods10['post']['status']>(prefix, `${prefix3}${PATH6}`, POST, option).json(),
+                  post: (option: { body: Methods12['post']['reqBody'], config?: T }) =>
+                    fetch<Methods12['post']['resBody'], BasicHeaders, Methods12['post']['status']>(prefix, `${prefix3}${PATH7}`, POST, option).json(),
                   /**
                    * コンテンツモデル内に、コンテンツフィールドを新規作成します。
                    *
@@ -323,13 +379,13 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                    * | ● | ● |
                    * @returns Created
                    */
-                  $post: (option: { body: Methods10['post']['reqBody'], config?: T }) =>
-                    fetch<Methods10['post']['resBody'], BasicHeaders, Methods10['post']['status']>(prefix, `${prefix3}${PATH6}`, POST, option).json().then(r => r.body),
-                  $path: () => `${prefix}${prefix3}${PATH6}`
+                  $post: (option: { body: Methods12['post']['reqBody'], config?: T }) =>
+                    fetch<Methods12['post']['resBody'], BasicHeaders, Methods12['post']['status']>(prefix, `${prefix3}${PATH7}`, POST, option).json().then(r => r.body),
+                  $path: () => `${prefix}${prefix3}${PATH7}`
                 },
                 contents: {
                   _content_id: (val5: string) => {
-                    const prefix5 = `${prefix3}${PATH7}/${val5}`
+                    const prefix5 = `${prefix3}${PATH9}/${val5}`
 
                     return {
                       /**
@@ -342,7 +398,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                        * @returns OK
                        */
                       get: (option?: { config?: T }) =>
-                        fetch<Methods12['get']['resBody'], BasicHeaders, Methods12['get']['status']>(prefix, prefix5, GET, option).json(),
+                        fetch<Methods14['get']['resBody'], BasicHeaders, Methods14['get']['status']>(prefix, prefix5, GET, option).json(),
                       /**
                        * コンテンツIDに紐づく、コンテンツの情報を取得します。
                        *
@@ -353,7 +409,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                        * @returns OK
                        */
                       $get: (option?: { config?: T }) =>
-                        fetch<Methods12['get']['resBody'], BasicHeaders, Methods12['get']['status']>(prefix, prefix5, GET, option).json().then(r => r.body),
+                        fetch<Methods14['get']['resBody'], BasicHeaders, Methods14['get']['status']>(prefix, prefix5, GET, option).json().then(r => r.body),
                       /**
                        * コンテンツIDに紐づく、コンテンツの情報を更新します。
                        *
@@ -364,7 +420,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                        * @returns OK
                        */
                       patch: (option?: { config?: T }) =>
-                        fetch<Methods12['patch']['resBody'], BasicHeaders, Methods12['patch']['status']>(prefix, prefix5, PATCH, option).json(),
+                        fetch<Methods14['patch']['resBody'], BasicHeaders, Methods14['patch']['status']>(prefix, prefix5, PATCH, option).json(),
                       /**
                        * コンテンツIDに紐づく、コンテンツの情報を更新します。
                        *
@@ -375,7 +431,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                        * @returns OK
                        */
                       $patch: (option?: { config?: T }) =>
-                        fetch<Methods12['patch']['resBody'], BasicHeaders, Methods12['patch']['status']>(prefix, prefix5, PATCH, option).json().then(r => r.body),
+                        fetch<Methods14['patch']['resBody'], BasicHeaders, Methods14['patch']['status']>(prefix, prefix5, PATCH, option).json().then(r => r.body),
                       /**
                        * コンテンツIDに紐づく、コンテンツを削除します。
                        *
@@ -385,7 +441,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                        * | ● | ● |
                        */
                       delete: (option?: { config?: T }) =>
-                        fetch<void, BasicHeaders, Methods12['delete']['status']>(prefix, prefix5, DELETE, option).send(),
+                        fetch<void, BasicHeaders, Methods14['delete']['status']>(prefix, prefix5, DELETE, option).send(),
                       /**
                        * コンテンツIDに紐づく、コンテンツを削除します。
                        *
@@ -395,7 +451,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                        * | ● | ● |
                        */
                       $delete: (option?: { config?: T }) =>
-                        fetch<void, BasicHeaders, Methods12['delete']['status']>(prefix, prefix5, DELETE, option).send().then(r => r.body),
+                        fetch<void, BasicHeaders, Methods14['delete']['status']>(prefix, prefix5, DELETE, option).send().then(r => r.body),
                       $path: () => `${prefix}${prefix5}`
                     }
                   },
@@ -408,8 +464,8 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                    * | ● | ● |
                    * @returns OK
                    */
-                  get: (option: { query: Methods11['get']['query'], config?: T }) =>
-                    fetch<Methods11['get']['resBody'], BasicHeaders, Methods11['get']['status']>(prefix, `${prefix3}${PATH7}`, GET, option).json(),
+                  get: (option: { query: Methods13['get']['query'], config?: T }) =>
+                    fetch<Methods13['get']['resBody'], BasicHeaders, Methods13['get']['status']>(prefix, `${prefix3}${PATH9}`, GET, option).json(),
                   /**
                    * スペースのコンテンツモデルIDに紐づく、コンテンツ一覧を取得します。
                    *
@@ -419,8 +475,8 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                    * | ● | ● |
                    * @returns OK
                    */
-                  $get: (option: { query: Methods11['get']['query'], config?: T }) =>
-                    fetch<Methods11['get']['resBody'], BasicHeaders, Methods11['get']['status']>(prefix, `${prefix3}${PATH7}`, GET, option).json().then(r => r.body),
+                  $get: (option: { query: Methods13['get']['query'], config?: T }) =>
+                    fetch<Methods13['get']['resBody'], BasicHeaders, Methods13['get']['status']>(prefix, `${prefix3}${PATH9}`, GET, option).json().then(r => r.body),
                   /**
                    * スペース内のコンテンツモデルIDに紐づく、コンテンツモデルにコンテンツを新規作成します。
                    *
@@ -431,8 +487,8 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                    * @param option.body - リクエストボディは、ユーザーが任意で設定したコンテンツフィールドによるためここでは定義しない
                    * @returns Created
                    */
-                  post: (option: { body: Methods11['post']['reqBody'], config?: T }) =>
-                    fetch<Methods11['post']['resBody'], BasicHeaders, Methods11['post']['status']>(prefix, `${prefix3}${PATH7}`, POST, option).json(),
+                  post: (option: { body: Methods13['post']['reqBody'], config?: T }) =>
+                    fetch<Methods13['post']['resBody'], BasicHeaders, Methods13['post']['status']>(prefix, `${prefix3}${PATH9}`, POST, option).json(),
                   /**
                    * スペース内のコンテンツモデルIDに紐づく、コンテンツモデルにコンテンツを新規作成します。
                    *
@@ -443,10 +499,10 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                    * @param option.body - リクエストボディは、ユーザーが任意で設定したコンテンツフィールドによるためここでは定義しない
                    * @returns Created
                    */
-                  $post: (option: { body: Methods11['post']['reqBody'], config?: T }) =>
-                    fetch<Methods11['post']['resBody'], BasicHeaders, Methods11['post']['status']>(prefix, `${prefix3}${PATH7}`, POST, option).json().then(r => r.body),
-                  $path: (option?: { method?: 'get'; query: Methods11['get']['query'] }) =>
-                    `${prefix}${prefix3}${PATH7}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`
+                  $post: (option: { body: Methods13['post']['reqBody'], config?: T }) =>
+                    fetch<Methods13['post']['resBody'], BasicHeaders, Methods13['post']['status']>(prefix, `${prefix3}${PATH9}`, POST, option).json().then(r => r.body),
+                  $path: (option?: { method?: 'get'; query: Methods13['get']['query'] }) =>
+                    `${prefix}${prefix3}${PATH9}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`
                 },
                 /**
                  * スペース内のコンテンツモデルIDに紐づく、コンテンツモデルの情報を取得します。
@@ -458,7 +514,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                  * @returns OK
                  */
                 get: (option?: { config?: T }) =>
-                  fetch<Methods9['get']['resBody'], BasicHeaders, Methods9['get']['status']>(prefix, prefix3, GET, option).json(),
+                  fetch<Methods10['get']['resBody'], BasicHeaders, Methods10['get']['status']>(prefix, prefix3, GET, option).json(),
                 /**
                  * スペース内のコンテンツモデルIDに紐づく、コンテンツモデルの情報を取得します。
                  *
@@ -469,7 +525,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                  * @returns OK
                  */
                 $get: (option?: { config?: T }) =>
-                  fetch<Methods9['get']['resBody'], BasicHeaders, Methods9['get']['status']>(prefix, prefix3, GET, option).json().then(r => r.body),
+                  fetch<Methods10['get']['resBody'], BasicHeaders, Methods10['get']['status']>(prefix, prefix3, GET, option).json().then(r => r.body),
                 /**
                  * スペース内のコンテンツモデルIDい紐づく、コンテンツモデルの情報を更新します。
                  *
@@ -479,8 +535,8 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                  * | ● | ● |
                  * @returns OK
                  */
-                patch: (option: { body: Methods9['patch']['reqBody'], config?: T }) =>
-                  fetch<Methods9['patch']['resBody'], BasicHeaders, Methods9['patch']['status']>(prefix, prefix3, PATCH, option).json(),
+                patch: (option: { body: Methods10['patch']['reqBody'], config?: T }) =>
+                  fetch<Methods10['patch']['resBody'], BasicHeaders, Methods10['patch']['status']>(prefix, prefix3, PATCH, option).json(),
                 /**
                  * スペース内のコンテンツモデルIDい紐づく、コンテンツモデルの情報を更新します。
                  *
@@ -490,8 +546,8 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                  * | ● | ● |
                  * @returns OK
                  */
-                $patch: (option: { body: Methods9['patch']['reqBody'], config?: T }) =>
-                  fetch<Methods9['patch']['resBody'], BasicHeaders, Methods9['patch']['status']>(prefix, prefix3, PATCH, option).json().then(r => r.body),
+                $patch: (option: { body: Methods10['patch']['reqBody'], config?: T }) =>
+                  fetch<Methods10['patch']['resBody'], BasicHeaders, Methods10['patch']['status']>(prefix, prefix3, PATCH, option).json().then(r => r.body),
                 /**
                  * スペース内のコンテンツモデルIDに紐づく、コンテンツモデルを削除します。
                  *
@@ -501,7 +557,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                  * | ● | ● |
                  */
                 delete: (option?: { config?: T }) =>
-                  fetch<void, BasicHeaders, Methods9['delete']['status']>(prefix, prefix3, DELETE, option).send(),
+                  fetch<void, BasicHeaders, Methods10['delete']['status']>(prefix, prefix3, DELETE, option).send(),
                 /**
                  * スペース内のコンテンツモデルIDに紐づく、コンテンツモデルを削除します。
                  *
@@ -511,7 +567,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
                  * | ● | ● |
                  */
                 $delete: (option?: { config?: T }) =>
-                  fetch<void, BasicHeaders, Methods9['delete']['status']>(prefix, prefix3, DELETE, option).send().then(r => r.body),
+                  fetch<void, BasicHeaders, Methods10['delete']['status']>(prefix, prefix3, DELETE, option).send().then(r => r.body),
                 $path: () => `${prefix}${prefix3}`
               }
             },
@@ -525,7 +581,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
              * @returns OK
              */
             get: (option?: { config?: T }) =>
-              fetch<Methods7['get']['resBody'], BasicHeaders, Methods7['get']['status']>(prefix, `${prefix1}${PATH5}`, GET, option).json(),
+              fetch<Methods8['get']['resBody'], BasicHeaders, Methods8['get']['status']>(prefix, `${prefix1}${PATH6}`, GET, option).json(),
             /**
              * スペース内のコンテンツモデル一覧を取得します。
              *
@@ -536,7 +592,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
              * @returns OK
              */
             $get: (option?: { config?: T }) =>
-              fetch<Methods7['get']['resBody'], BasicHeaders, Methods7['get']['status']>(prefix, `${prefix1}${PATH5}`, GET, option).json().then(r => r.body),
+              fetch<Methods8['get']['resBody'], BasicHeaders, Methods8['get']['status']>(prefix, `${prefix1}${PATH6}`, GET, option).json().then(r => r.body),
             /**
              * スペース内にコンテンツモデルを作成します。
              *
@@ -546,8 +602,8 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
              * | ● | ● |
              * @returns Created
              */
-            post: (option: { body: Methods7['post']['reqBody'], config?: T }) =>
-              fetch<Methods7['post']['resBody'], BasicHeaders, Methods7['post']['status']>(prefix, `${prefix1}${PATH5}`, POST, option).json(),
+            post: (option: { body: Methods8['post']['reqBody'], config?: T }) =>
+              fetch<Methods8['post']['resBody'], BasicHeaders, Methods8['post']['status']>(prefix, `${prefix1}${PATH6}`, POST, option).json(),
             /**
              * スペース内にコンテンツモデルを作成します。
              *
@@ -557,9 +613,9 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
              * | ● | ● |
              * @returns Created
              */
-            $post: (option: { body: Methods7['post']['reqBody'], config?: T }) =>
-              fetch<Methods7['post']['resBody'], BasicHeaders, Methods7['post']['status']>(prefix, `${prefix1}${PATH5}`, POST, option).json().then(r => r.body),
-            $path: () => `${prefix}${prefix1}${PATH5}`
+            $post: (option: { body: Methods8['post']['reqBody'], config?: T }) =>
+              fetch<Methods8['post']['resBody'], BasicHeaders, Methods8['post']['status']>(prefix, `${prefix1}${PATH6}`, POST, option).json().then(r => r.body),
+            $path: () => `${prefix}${prefix1}${PATH6}`
           },
           /**
            * スペースIDに紐づくスペース情報を取得します。
@@ -684,7 +740,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
     },
     users: {
       _user_id: (val1: string) => {
-        const prefix1 = `${PATH8}/${val1}`
+        const prefix1 = `${PATH10}/${val1}`
 
         return {
           spaces: {
@@ -698,7 +754,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
              * @returns OK
              */
             get: (option?: { config?: T }) =>
-              fetch<Methods15['get']['resBody'], BasicHeaders, Methods15['get']['status']>(prefix, `${prefix1}${PATH3}`, GET, option).json(),
+              fetch<Methods17['get']['resBody'], BasicHeaders, Methods17['get']['status']>(prefix, `${prefix1}${PATH3}`, GET, option).json(),
             /**
              * ユーザーに紐づくスペースの一覧を取得します。
              *
@@ -709,7 +765,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
              * @returns OK
              */
             $get: (option?: { config?: T }) =>
-              fetch<Methods15['get']['resBody'], BasicHeaders, Methods15['get']['status']>(prefix, `${prefix1}${PATH3}`, GET, option).json().then(r => r.body),
+              fetch<Methods17['get']['resBody'], BasicHeaders, Methods17['get']['status']>(prefix, `${prefix1}${PATH3}`, GET, option).json().then(r => r.body),
             $path: () => `${prefix}${prefix1}${PATH3}`
           },
           /**
@@ -724,7 +780,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
            * @returns OK
            */
           get: (option?: { config?: T }) =>
-            fetch<Methods14['get']['resBody'], BasicHeaders, Methods14['get']['status']>(prefix, prefix1, GET, option).json(),
+            fetch<Methods16['get']['resBody'], BasicHeaders, Methods16['get']['status']>(prefix, prefix1, GET, option).json(),
           /**
            * ユーザーIDに紐づくユーザー情報を取得します。
            *
@@ -737,7 +793,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
            * @returns OK
            */
           $get: (option?: { config?: T }) =>
-            fetch<Methods14['get']['resBody'], BasicHeaders, Methods14['get']['status']>(prefix, prefix1, GET, option).json().then(r => r.body),
+            fetch<Methods16['get']['resBody'], BasicHeaders, Methods16['get']['status']>(prefix, prefix1, GET, option).json().then(r => r.body),
           /**
            * ユーザーIDに紐づくユーザー情報を更新します。
            *
@@ -747,8 +803,8 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
            * | | ● |
            * @returns OK
            */
-          patch: (option: { body: Methods14['patch']['reqBody'], config?: T }) =>
-            fetch<Methods14['patch']['resBody'], BasicHeaders, Methods14['patch']['status']>(prefix, prefix1, PATCH, option).json(),
+          patch: (option: { body: Methods16['patch']['reqBody'], config?: T }) =>
+            fetch<Methods16['patch']['resBody'], BasicHeaders, Methods16['patch']['status']>(prefix, prefix1, PATCH, option).json(),
           /**
            * ユーザーIDに紐づくユーザー情報を更新します。
            *
@@ -758,8 +814,8 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
            * | | ● |
            * @returns OK
            */
-          $patch: (option: { body: Methods14['patch']['reqBody'], config?: T }) =>
-            fetch<Methods14['patch']['resBody'], BasicHeaders, Methods14['patch']['status']>(prefix, prefix1, PATCH, option).json().then(r => r.body),
+          $patch: (option: { body: Methods16['patch']['reqBody'], config?: T }) =>
+            fetch<Methods16['patch']['resBody'], BasicHeaders, Methods16['patch']['status']>(prefix, prefix1, PATCH, option).json().then(r => r.body),
           /**
            * ユーザー退会時に呼び出すAPI。成功時は、Cookieの情報も一緒に削除する。
            *
@@ -769,7 +825,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
            * | | ● |
            */
           delete: (option?: { config?: T }) =>
-            fetch<void, BasicHeaders, Methods14['delete']['status']>(prefix, prefix1, DELETE, option).send(),
+            fetch<void, BasicHeaders, Methods16['delete']['status']>(prefix, prefix1, DELETE, option).send(),
           /**
            * ユーザー退会時に呼び出すAPI。成功時は、Cookieの情報も一緒に削除する。
            *
@@ -779,7 +835,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
            * | | ● |
            */
           $delete: (option?: { config?: T }) =>
-            fetch<void, BasicHeaders, Methods14['delete']['status']>(prefix, prefix1, DELETE, option).send().then(r => r.body),
+            fetch<void, BasicHeaders, Methods16['delete']['status']>(prefix, prefix1, DELETE, option).send().then(r => r.body),
           $path: () => `${prefix}${prefix1}`
         }
       },
@@ -795,7 +851,7 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
        * @returns OK
        */
       get: (option?: { config?: T }) =>
-        fetch<Methods13['get']['resBody'], BasicHeaders, Methods13['get']['status']>(prefix, PATH8, GET, option).json(),
+        fetch<Methods15['get']['resBody'], BasicHeaders, Methods15['get']['status']>(prefix, PATH10, GET, option).json(),
       /**
        * 当システムを利用している全ユーザーを取得します。
        *
@@ -808,8 +864,8 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
        * @returns OK
        */
       $get: (option?: { config?: T }) =>
-        fetch<Methods13['get']['resBody'], BasicHeaders, Methods13['get']['status']>(prefix, PATH8, GET, option).json().then(r => r.body),
-      $path: () => `${prefix}${PATH8}`
+        fetch<Methods15['get']['resBody'], BasicHeaders, Methods15['get']['status']>(prefix, PATH10, GET, option).json().then(r => r.body),
+      $path: () => `${prefix}${PATH10}`
     }
   }
 }
