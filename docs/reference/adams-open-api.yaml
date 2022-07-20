@@ -765,6 +765,11 @@ paths:
                         name: string
                         type: 0
                         description: string
+                        required: false
+                        unique: false
+                        regex: string
+                        max: 0
+                        min: 0
                         created_at: '1997-07-16T19:20:30.45+01:00'
                         updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
@@ -814,6 +819,11 @@ paths:
                       name: string
                       type: 0
                       description: string
+                      required: false
+                      unique: false
+                      regex: string
+                      max: 0
+                      min: 0
                       created_at: '1997-07-16T19:20:30.45+01:00'
                       updated_at: '1997-07-16T19:20:30.45+01:00'
   '/spaces/{space_id}/content_models/{content_model_id}':
@@ -990,6 +1000,11 @@ paths:
                         name: string
                         type: 0
                         description: string
+                        required: false
+                        unique: false
+                        regex: string
+                        max: 0
+                        min: 0
                         created_at: '1997-07-16T19:20:30.45+01:00'
                         updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
@@ -1032,6 +1047,11 @@ paths:
                       name: string
                       type: 0
                       description: string
+                      required: false
+                      unique: false
+                      regex: string
+                      max: 0
+                      min: 0
                       created_at: '1997-07-16T19:20:30.45+01:00'
                       updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
@@ -1064,10 +1084,17 @@ paths:
             examples:
               example-1:
                 value:
-                  id: title
-                  name: タイトル
+                  id: string
+                  name: string
                   type: 0
                   description: string
+                  required: false
+                  unique: false
+                  regex: string
+                  max: 0
+                  min: 0
+                  created_at: '1997-07-16T19:20:30.45+01:00'
+                  updated_at: '1997-07-16T19:20:30.45+01:00'
   '/spaces/{space_id}/content_models/{content_model_id}/bulk_content_fields':
     parameters:
       - schema:
@@ -1104,6 +1131,11 @@ paths:
                         name: string
                         type: 0
                         description: string
+                        required: false
+                        unique: false
+                        regex: string
+                        max: 0
+                        min: 0
                         created_at: '1997-07-16T19:20:30.45+01:00'
                         updated_at: '1997-07-16T19:20:30.45+01:00'
         '400':
@@ -1139,6 +1171,11 @@ paths:
                   name: string
                   type: 0
                   description: string
+                  required: false
+                  unique: false
+                  regex: string
+                  max: 0
+                  min: 0
                   created_at: '1997-07-16T19:20:30.45+01:00'
                   updated_at: '1997-07-16T19:20:30.45+01:00'
   '/spaces/{space_id}/content_models/{content_id}/content_fields/{content_field_id}':
@@ -1170,6 +1207,11 @@ paths:
                       name: string
                       type: 0
                       description: string
+                      required: false
+                      unique: false
+                      regex: string
+                      max: 0
+                      min: 0
                       created_at: '1997-07-16T19:20:30.45+01:00'
                       updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
@@ -1212,6 +1254,11 @@ paths:
                       name: string
                       type: 0
                       description: string
+                      required: false
+                      unique: false
+                      regex: string
+                      max: 0
+                      min: 0
                       created_at: '1997-07-16T19:20:30.45+01:00'
                       updated_at: '1997-07-16T19:20:30.45+01:00'
         '401':
@@ -1255,8 +1302,8 @@ paths:
             examples:
               example-1:
                 value:
-                  id: title
-                  name: タイトル
+                  id: string
+                  name: string
                   type: 0
                   description: string
     delete:
@@ -2101,6 +2148,23 @@ components:
                 - 2
             description:
               type: string
+            required:
+              type: boolean
+              description: 必須入力フラグ
+              default: false
+            unique:
+              type: boolean
+              default: false
+              description: 重複可否
+            regex:
+              type: string
+              description: 正規表現でのバリデーション項目
+            max:
+              type: integer
+              description: 最大入力値
+            min:
+              type: integer
+              description: 最小入力値
           required:
             - id
             - name
