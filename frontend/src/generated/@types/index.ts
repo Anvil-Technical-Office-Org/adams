@@ -88,6 +88,16 @@ export type ContentField = {
    */
   type: 0 | 1 | 2
   description?: string
+  /** 必須入力フラグ */
+  required?: boolean
+  /** 重複可否 */
+  unique?: boolean
+  /** 正規表現でのバリデーション項目 */
+  regex?: string
+  /** 最大入力値 */
+  max?: number
+  /** 最小入力値 */
+  min?: number
 } & Timestamp
 
 /** API Keyの情報を表すモデルです。 */

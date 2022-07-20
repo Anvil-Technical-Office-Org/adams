@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Link from 'next/link'
 import styles from './side-drwer.module.scss'
 import {
   Button,
@@ -31,9 +32,11 @@ const Component: React.VFC<Props> = ({ spaces, isOpen, handleClose }) => {
           </ListItem>
         ))}
         <ListItem>
-          <Button>
-            スペースを作成
-          </Button>
+          <Link href='/managements/create-space'>
+            <Button>
+              スペースを作成
+            </Button>
+          </Link>
         </ListItem>
       </List>
     </Drawer>
