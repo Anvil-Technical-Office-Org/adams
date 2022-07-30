@@ -9,6 +9,7 @@ import {
   Control,
 } from 'react-hook-form'
 import { AuthFormState } from '~/hooks/use-auth'
+import { VIEW_URLS } from '~/common/const'
 
 type Props = {
   onSubmit: (data: AuthFormState) => void
@@ -70,10 +71,10 @@ const Component: React.VFC<Props> = ({
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <Link href='/forget-password'>
+          <Link href={VIEW_URLS.FGT_PASS} passHref>
             <a className={styles.link}>パスワードをお忘れの方</a>
           </Link>
-          <Link href='/signup'>
+          <Link href={VIEW_URLS.SIGN_UP} passHref>
             <a className={styles.link}>アカウントをお持ちでない方</a>
           </Link>
         </Grid>

@@ -7,6 +7,7 @@ import SpaceUseCase from '~/core/usecases/space-use-case'
 import SpaceRepository from '~/core/repositories/space-repository'
 import SpaceDriver from '~/core/drivers/space-driver'
 import { useRouter } from 'next/router'
+import { VIEW_URLS } from '~/common/const'
 
 export type State = {
   id: string
@@ -31,9 +32,9 @@ const Container: React.VFC<Props> = ({}) => {
   const { errors, isValid } = methods.formState
 
   const create: SubmitHandler<State> = async data => {
-    const usecase = new SpaceUseCase(new SpaceRepository(new SpaceDriver))
+    const usecase = new SpaceUseCase(new SpaceRepository(new SpaceDriver()))
     const space = await usecase.create(data.id, data.name, data.description)
-    router.push('/managements/content-models')
+    router.push(VIEW_URLS.MNG_CREATE_CONTENT_MODELS)
   }
 
   const onError: SubmitErrorHandler<State> = data => {

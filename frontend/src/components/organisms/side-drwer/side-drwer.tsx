@@ -9,6 +9,7 @@ import {
   ListItemText,
 } from '@mui/material'
 import { Space } from '~/core/entities'
+import { VIEW_URLS } from '~/common/const'
 
 type Props = {
   // スペース一覧
@@ -32,7 +33,7 @@ const Component: React.VFC<Props> = ({ spaces, isOpen, handleClose }) => {
           </ListItem>
         ))}
         <ListItem>
-          <Link href='/managements/create-space'>
+          <Link href={VIEW_URLS.MNG_CREATE_SPACE} passHref>
             <Button>
               スペースを作成
             </Button>

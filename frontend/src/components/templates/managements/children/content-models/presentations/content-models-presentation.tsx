@@ -9,6 +9,7 @@ import {
   List,
   ListItem,
 } from '@mui/material'
+import { VIEW_URLS } from '~/common/const'
 
 type Props = {}
 
@@ -18,7 +19,7 @@ const Component: React.VFC<Props> = ({}) => (
       <Grid item xs={2}>
         <List>
           <ListItem>
-            <Link href='/managements/create-content-models'>
+            <Link href={VIEW_URLS.MNG_CREATE_CONTENT_MODELS} passHref>
               <Button>コンテンツモデルを作成</Button>
             </Link>
           </ListItem>

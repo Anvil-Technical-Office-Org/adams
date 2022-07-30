@@ -5,6 +5,7 @@ import AuthUseCase from '~/core/usecases/auth-use-case'
 import AuthRepository from '~/core/repositories/auth-repository'
 import AuthDriver from '~/core/drivers/auth-driver'
 import { useRouter } from 'next/router'
+import { VIEW_URLS } from '~/common/const'
 import { SubmitErrorHandler, SubmitHandler } from 'react-hook-form'
 
 type Props = {}
@@ -19,7 +20,7 @@ const Container: React.VFC<Props> = ({}) => {
     const auth = await usecase.signin(data.email, data.password)
     if (auth) {
       setUser(auth.user)
-      router.push('/managements')
+      router.push(VIEW_URLS.MNG_TOP)
     }
   }
 

@@ -5,6 +5,7 @@ import AuthUseCase from '~/core/usecases/auth-use-case'
 import AuthRepository from '~/core/repositories/auth-repository'
 import AuthDriver from '~/core/drivers/auth-driver'
 import { useRouter } from 'next/router'
+import { VIEW_URLS } from '~/common/const'
 import { SubmitErrorHandler, SubmitHandler } from 'react-hook-form'
 
 type Props = {}
@@ -21,7 +22,7 @@ const Container: React.VFC<Props> = ({}) => {
     console.log('認証結果', auth)
     if (auth) {
       setUser(auth.user)
-      router.push('/managements/create-space')
+      router.push(VIEW_URLS.MNG_CREATE_SPACE)
     }
   }
 
